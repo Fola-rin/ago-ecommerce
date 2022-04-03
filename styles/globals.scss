@@ -1,0 +1,243 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Infant:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap");
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	outline: 0;
+	text-decoration: none;
+	background: none;
+	border: none;
+}
+.transition,
+.transition:hover {
+	transition: 200ms ease;
+}
+body {
+	margin: 0;
+	font-family: "Libre Franklin", sans-serif;
+	background-color: #010d19;
+	color: #fff;
+}
+a {
+	color: inherit;
+}
+button {
+	cursor: pointer;
+	font: inherit;
+}
+input {
+	// font-family: "Patron", sans-serif;
+	font-size: 16px;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+	font-family: "PT Serif", sans-serif;
+}
+p {
+	line-height: 1.5;
+}
+
+.header {
+	position: sticky;
+	z-index: 1;
+	top: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 40px 120px 20px;
+	width: 100%;
+	background: #010d19;
+	.logo-wrapper {
+		justify-self: flex-start;
+		width: 50%;
+		display: flex;
+		align-items: center;
+		a {
+			width: 130px;
+			line-height: 0;
+			transition: 400ms ease;
+
+			display: inline-block;
+			svg path {
+				transition: 400ms ease;
+			}
+			&:hover {
+				transition: 400ms ease;
+				transform: scale(1.05);
+
+				svg path {
+					fill: #c97c48;
+					transition: 400ms ease;
+				}
+			}
+		}
+	}
+	.nav-links {
+		display: flex;
+		justify-content: center;
+		.nav-link {
+			padding: 20px;
+			a {
+				color: #f8f8e7;
+				white-space: nowrap;
+				transition: 300ms ease;
+				display: block;
+				text-transform: uppercase;
+				font-size: 14px;
+				letter-spacing: 1.8px;
+				font-weight: 500;
+
+				&:hover {
+					color: #e0874b;
+					transition: 300ms ease;
+					transform: scale(1.03);
+				}
+			}
+		}
+	}
+	.nav-cta {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		justify-self: flex-end;
+		width: 50%;
+		.link {
+			&:first-child {
+				margin-right: 40px;
+			}
+		}
+		.cart-icon {
+			a {
+				position: relative;
+				display: block;
+				line-height: 0;
+				transition: 300ms ease;
+
+				svg {
+					color: #cfcfcf;
+					font-size: 28px;
+				}
+				&:hover {
+					transition: 300ms ease;
+					transform: scale(1.08);
+				}
+				span {
+					position: absolute;
+					top: -7px;
+					right: -6px;
+					display: block;
+					height: 18px;
+					width: 18px;
+					background-color: #be7530;
+					font-size: 12px;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					border-radius: 500px;
+				}
+			}
+		}
+	}
+}
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	padding: 40px 120px;
+	background: transparent;
+	.info {
+		width: 330px;
+		.logo-wrapper {
+			margin-bottom: 10px;
+			a {
+				width: 130px;
+				line-height: 0;
+				transition: 400ms ease;
+				display: inline-block;
+
+				svg {
+					transition: 300ms ease;
+				}
+				&:hover svg {
+					color: #e0874b;
+					transition: 300ms ease;
+					transform: scale(1.03);
+				}
+			}
+		}
+		p {
+			color: #cfcfcf;
+			font-size: 15px;
+			margin-bottom: 20px;
+		}
+		.socials {
+			display: flex;
+			justify-content: flex-start;
+			.link {
+				margin-right: 22px;
+				:last-child {
+					margin: 0;
+				}
+				a {
+					svg path {
+						transition: 200ms ease;
+					}
+					&:hover svg path {
+						fill: #e0874b;
+						transition: 200ms ease;
+						transform: scale(1.03);
+					}
+				}
+			}
+		}
+	}
+	.page-links {
+		display: flex;
+		.wrapper {
+			margin-right: 40px;
+			max-width: 150px;
+			:last-child {
+				margin: 0;
+			}
+			p {
+				margin-bottom: 15px;
+			}
+			.links .link {
+				margin-bottom: 10px;
+				a {
+					color: #cfcfcf;
+					font-size: 15px;
+					line-height: 24px;
+					transition: 300ms ease;
+					display: block;
+
+					&:hover {
+						color: #e0874b;
+						transition: 300ms ease;
+						transform: scale(1.03);
+					}
+				}
+			}
+		}
+	}
+}
