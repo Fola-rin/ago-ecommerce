@@ -18,34 +18,28 @@ import styles from "../styles/home.module.scss";
 export default function Home() {
 	return (
 		<Layout>
-			<Head>
-				<title>e-choke</title>
-				<meta
-					name="description"
-					content="An ecommerce web app created by Oyeleke Afolarin"
-				/>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
 			<div className={styles.home_container}>
-				<div
-					className={styles.hero_section}
-					style={{ backgroundImage: `url(${"images/bg-01.png"})` }}
-				>
-					<div className={styles.text_wrapper}>
-						<p className={styles.sub_heading}>New Product</p>
-						<h1>Machine Three-Hand Date Brown Leather Watch</h1>
-						<p className={styles.main_desc}>
-							Minim magna id officia cillum. Irure dolor aliquip non qui velit
-							ad officia. Amet irure minim cupidatat sint ut pariatur aute dolor
-							adipisicing labore ea reprehenderit eu nostrud.
-						</p>
-						<Link href="/" passHref>
-							<a>See Product</a>
-						</Link>
-					</div>
-					<div className={styles.img_wrapper}>
-						<div>
-							<Image src={heroProd} alt="" />
+				<div className={styles.hero_section}>
+					<div
+						className={styles.hero_section_wrapper}
+						style={{ backgroundImage: `url(${"images/bg-01.svg"})` }}
+					>
+						<div className={styles.text_wrapper}>
+							<p className={styles.sub_heading}>New Product</p>
+							<h1>Machine Three-Hand Date Brown Leather Watch</h1>
+							<p className={styles.main_desc}>
+								Minim magna id officia cillum. Irure dolor aliquip non qui velit
+								ad officia. Amet irure minim cupidatat sint ut pariatur aute
+								dolor adipisicing labore ea reprehenderit eu nostrud.
+							</p>
+							<Link href="/" passHref>
+								<a>See Product</a>
+							</Link>
+						</div>
+						<div className={styles.img_wrapper}>
+							<div>
+								<Image src={heroProd} alt="" />
+							</div>
 						</div>
 					</div>
 				</div>

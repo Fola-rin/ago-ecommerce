@@ -1,0 +1,213 @@
+.watch_container {
+	padding: 80px 120px;
+	color: #010d19;
+	background-color: #fafafa;
+
+	.main_watch_wrapper {
+		max-width: 1440px;
+		margin: auto;
+
+		.go_back {
+			font-size: 14px;
+			color: rgba(1, 13, 25, 0.562);
+			margin-bottom: 20px;
+			font-weight: 500;
+			transition: 200ms ease;
+			width: fit-content;
+			&:hover {
+				transition: 200ms ease;
+				color: #e0874b;
+				transform: scale(1.03);
+			}
+		}
+		.watch_wrapper {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.img_container {
+				width: 45%;
+
+				.img_showcase {
+					width: 480px;
+					height: 400px;
+					background-color: #cfcfcf;
+					border-radius: 15px;
+					overflow: hidden;
+					// margin: auto;
+					margin-bottom: 30px;
+					position: relative;
+					.showImg {
+						transition: 200ms ease;
+						opacity: 1;
+					}
+					.hideImg {
+						transition: 200ms ease;
+						opacity: 0;
+					}
+					span {
+						position: absolute !important;
+						top: 0;
+						left: 0;
+						width: 100% !important;
+						height: 100% !important;
+
+						img {
+							transition: 200ms ease;
+						}
+					}
+				}
+				.img_choices {
+					display: flex;
+					justify-content: space-between;
+					width: 480px;
+
+					.img_choice {
+						width: 90px;
+						height: 80px;
+						border-radius: 15px;
+						overflow: hidden;
+						cursor: pointer;
+						transition: 300ms ease;
+						outline-style: solid;
+						outline-color: transparent;
+						outline-width: 2px;
+
+						&.selected {
+							outline-color: #e0874b;
+							transition: 200ms ease;
+							img {
+								opacity: 0.6;
+							}
+						}
+						&:hover {
+							outline-color: #e0874b;
+							transition: 200ms ease;
+							transform: scale(1.05);
+						}
+						span {
+							width: 100% !important;
+							height: 100% !important;
+						}
+					}
+				}
+			}
+			.text_wrapper {
+				width: 48%;
+				.brand {
+					text-transform: uppercase;
+					font-size: 14px;
+					letter-spacing: 1.3px;
+					font-weight: 700;
+					color: #e0874b;
+					margin-bottom: 15px;
+					// color: #d8854c;
+				}
+				h1 {
+					font-size: 48px;
+					font-weight: 700;
+					line-height: 51px;
+					margin-bottom: 30px;
+				}
+				.desc {
+					margin-bottom: 40px;
+					letter-spacing: 0.5px;
+				}
+				.cost {
+					font-size: 24px;
+					font-weight: 700;
+					margin-bottom: 20px;
+
+					p {
+						&:first-of-type {
+							display: flex;
+							align-items: center;
+							span {
+								background-color: #e04b4b;
+								color: #fff;
+								padding: 2px 5px;
+								border-radius: 2px;
+								font-weight: 500;
+								font-size: 12px;
+								display: block;
+								margin-left: 10px;
+								line-height: normal;
+							}
+						}
+						&:last-of-type {
+							font-size: 16px;
+							text-decoration: line-through;
+							font-weight: 600;
+							color: rgba(1, 13, 25, 0.562);
+						}
+					}
+				}
+				.link_wrapper {
+					display: flex;
+					align-items: center;
+					margin-bottom: 20px;
+					.add_to_cart {
+						width: 150px;
+						display: block;
+						padding: 12px;
+						text-transform: uppercase;
+						background-color: #e0874b;
+						border-radius: 3px;
+						font-weight: 500;
+						font-size: 14px;
+						transition: 300ms ease;
+						color: #fff;
+						height: 44px;
+						&:hover {
+							background-color: #d8854c;
+							transition: 300ms ease;
+							transform: scale(1.03);
+						}
+					}
+					.cart_counter {
+						width: 150px;
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						padding: 12px;
+						border: 1px solid #cfcfcf;
+						border-radius: 3px;
+						margin-right: 20px;
+
+						button {
+							width: 20px;
+							height: 20px;
+							border: 1px solid #cfcfcf;
+							border-radius: 500px;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							transition: 300ms ease;
+
+							&:hover {
+								border-color: #010d19b2;
+								transition: 300ms ease;
+							}
+							svg {
+								font-size: 14px;
+							}
+						}
+					}
+				}
+				.proceed_to_cart {
+					color: #e0874b;
+					margin-bottom: 20px;
+					font-weight: 500;
+					transition: 200ms ease;
+					width: fit-content;
+
+					&:hover {
+						color: #d8854c;
+						transition: 200ms ease;
+						transform: scale(1.03);
+					}
+				}
+			}
+		}
+	}
+}
