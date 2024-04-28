@@ -1,17 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import styles from "../styles/checkout.module.scss";
 import heroProd from "../public/images/products/third_showcase.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { orderCompleted } from "../redux/cart.slice";
 
 const Checkout = () => {
+	const cartData = useSelector((state) => state.cart);
+	const router = useRouter();
+	const dispatch = useDispatch();
+
 	const [checked, setChecked] = useState(true);
 	const [completeOrder, setCompleteOrder] = useState(false);
 
 	const handleOrder = () => {
 		setCompleteOrder(true);
+		dispatch(orderCompleted());
 	};
+	const getTotal = () => {
+		let totalQuantity = 0;
+		let totalPrice = 0;
+		cartData.forEach((item) => {
+			totalQuantity += item.quantity;
+			totalPrice += item.price * item.quantity;
+		});
+		return { totalPrice, totalQuantity };
+	};
+	useEffect(() => {
+		if (cartData.length && !completeOrder) {
+		} else {
+			router.back();
+		}
+	}, []);
+
 	return (
 		<Layout>
 			<div className={styles.checkout_container}>
@@ -19,7 +43,9 @@ const Checkout = () => {
 					<SuccessScreen />
 				) : (
 					<div className={styles.checkout_wrapper}>
-						<p className={styles.go_back}>Go Back</p>
+						<p className={styles.go_back} onClick={() => router.back()}>
+							Go Back
+						</p>
 						<h1>Checkout</h1>
 						<div className={styles.checkout_contents}>
 							<div className={styles.checkout_content}>
@@ -49,8 +75,9 @@ const Checkout = () => {
 											onChange={() => setChecked(!checked)}
 										/>
 										<label htmlFor="check">
-											I agree to be sent an email containing the cart
-											information(this is for simulation purposes only)
+											{/* I agree to be sent an email containing the cart
+											information(this is for simulation purposes only) */}
+											I agree that I am awesome!
 										</label>
 									</div>
 									<button onClick={() => handleOrder()}>Complete Order</button>
@@ -62,7 +89,7 @@ const Checkout = () => {
 									<div className={styles.content}>
 										<div>
 											<p>Subtotal</p>
-											<p>$1,158.00</p>
+											<p>${getTotal().totalPrice}</p>
 										</div>
 										<div>
 											<p>Shipping</p>
@@ -75,14 +102,14 @@ const Checkout = () => {
 									</div>
 									<div className={styles.total}>
 										<p>Grand Total</p>
-										<p>$1,158.00</p>
+										<p>${getTotal().totalPrice}</p>
 									</div>
 								</div>
 								<div className={styles.cart_contents}>
-									<p className={styles.no_items}>16 Items</p>
-									<CartItem />
-									<CartItem />
-									<CartItem />
+									<p className={styles.no_items}>{cartData.length} items</p>
+									{cartData.map((item, id) => (
+										<CartItem key={id} product={item} />
+									))}
 								</div>
 							</div>
 						</div>
@@ -111,31 +138,40 @@ const SuccessScreen = () => (
 					<a>Go home</a>
 				</Link>
 				<Link href="https://bit.ly/congratulations_link" passHref>
-					<a>Win a free iphone</a>
+					<a target="_blank" rel="noreferrer">
+						Win a free iphone
+					</a>
 				</Link>
 			</div>
 		</div>
 	</div>
 );
-const CartItem = () => (
+const CartItem = ({ product }) => (
 	<div className={styles.cart_item}>
-		<h4 className={styles.name}>Carlie Three-Hand White Leather Watch</h4>
+		<h4 className={styles.name}>{product.name}</h4>
 		<div className={styles.info}>
 			<div className={styles.img_wrapper}>
-				<Image src={heroProd} alt="" objectFit="cover" />
+				{/* <Image src={heroProd} alt="" objectFit="cover" /> */}
+				<Image
+					src={`/${product.image}/1.png`}
+					alt=""
+					width={"100%"}
+					height="100%"
+					objectFit="contain"
+				/>
 			</div>
 			<div className={styles.desc}>
 				<div className={styles.price}>
 					<p className={styles.title}>Price</p>
-					<p className={styles.value}>$500</p>
+					<p className={styles.value}>${product.price}</p>
 				</div>
 				<div className={styles.qty}>
 					<p className={styles.title}>Qty</p>
-					<p className={styles.value}>5</p>
+					<p className={styles.value}>{product.quantity}</p>
 				</div>
 				<div className={styles.total}>
 					<p className={styles.title}>Total</p>
-					<p className={styles.value}>$50000</p>
+					<p className={styles.value}>${+product.quantity * +product.price}</p>
 				</div>
 			</div>
 		</div>

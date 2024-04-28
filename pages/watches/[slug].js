@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../styles/watch.module.scss";
 import heroProd from "../../public/images/products/third_showcase.jpg";
@@ -10,8 +10,19 @@ import Link from "next/link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Layout from "../../components/Layout";
+import db from "../../utils/db";
+import Product from "../../models/Product";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	addToCart,
+	incrementQuantity,
+	decrementQuantity,
+} from "../../redux/cart.slice";
 
-const Watch = () => {
+const Watch = ({ product }) => {
+	const router = useRouter();
 	const [openSort, setOpenSort] = useState(false);
 	const [checkedLocations, setCheckedLocations] = useState([]);
 	const [cart, setCart] = useState(0);
@@ -24,22 +35,49 @@ const Watch = () => {
 			setCheckedLocations((prevValue) => [...prevValue, id]);
 		}
 	};
-	const handleCartAmount = () => {
-		cart === 0 ? setCart(1) : "";
-	};
+	// const handleCartAmount = () => {
+	// 	cart === 0 ? setCart(1) : "";
+	// };
+	const cartData = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+	const cartProductInfo = cartData.find((item) => item._id === product._id);
+	useEffect(() => {
+		// axios({
+		// 	method: "get",
+		// 	url: `/api/products/${product._id}`,
+		// })
+		// 	.then((response) => {
+		// 		console.log(response);
+		// 		window.scrollTo({
+		// 			top: 0,
+		// 			left: 0,
+		// 			behavior: "smooth",
+		// 		});
+		// 	})
+		// 	.catch((error) => {
+		// 		setLoading(false);
+		// 		console.log(error.message);
+		// 	});
+		console.log(product);
+	}, []);
+
 	const [show, setShow] = useState([true, false, false, false]);
 	return (
 		<Layout>
 			<div className={styles.watch_container}>
 				<div className={styles.main_watch_wrapper}>
-					<p className={styles.go_back}>Go Back</p>
+					<button className={styles.go_back} onClick={() => router.back()}>
+						Go Back
+					</button>
 					<div className={styles.watch_wrapper}>
 						<div className={styles.img_container}>
 							<div className={styles.img_showcase}>
 								<Image
-									src={heroProd}
+									src={`/${product.image}/1.png`}
 									alt=""
-									objectFit="cover"
+									objectFit="contain"
+									height={100}
+									width={100}
 									className={show[0] ? styles.showImg : styles.hideImg}
 								/>
 								<Image
@@ -69,7 +107,13 @@ const Watch = () => {
 									}
 									onClick={() => setShow([true, false, false, false])}
 								>
-									<Image src={heroProd} alt="" objectFit="cover" />
+									<Image
+										src={`/${product.image}/1.png`}
+										alt=""
+										objectFit="contain"
+										height={100}
+										width={100}
+									/>
 								</div>
 								<div
 									className={
@@ -99,42 +143,48 @@ const Watch = () => {
 						</div>
 
 						<div className={styles.text_wrapper}>
-							<p className={styles.brand}>The Watch Company</p>
-							<h1>Carlie Three-Hand White Leather Watch</h1>
+							<p className={styles.brand}>{product.brand}</p>
+							<h1>{product.name}</h1>
 
-							<p className={styles.desc}>
-								Irure ea ullamco tempor pariatur incididunt. Est Lorem aliquip
-								amet reprehenderit commodo commodo proident adipisicing. Fugiat
-								do elit tempor qui sit adipisicing quis dolore aute enim sit non
-								occaecat ipsum. Anim tempor velit consequat cupidatat non mollit
-								deserunt. Non proident aute nulla enim laboris.
-							</p>
+							<p className={styles.desc}>{product.desc}</p>
 
 							<div className={styles.cost}>
 								<p>
-									$125.00 <span>SALE</span>
+									${product.price}{" "}
+									{product.oldPrice > 0 ? <span>SALE</span> : ""}
+									{product.newItem ? (
+										<span className={styles.new_tag}>NEW</span>
+									) : (
+										""
+									)}
 								</p>
-								<p>$250.00</p>
+								<p> {product.oldPrice > 0 ? "$" + product.oldPrice : ""}</p>
 							</div>
 							<div className={styles.link_wrapper}>
-								{cart > 0 ? (
+								{cartProductInfo ? (
 									<div className={styles.cart_counter}>
 										<button
 											onClick={() => {
-												cart === 0 ? setCart(0) : setCart(cart - 1);
+												dispatch(decrementQuantity(product));
 											}}
 										>
 											<RemoveIcon />
 										</button>
-										<span>{cart}</span>
-										<button onClick={() => setCart(cart + 1)}>
+										<span>
+											{cartProductInfo.quantity ? cartProductInfo.quantity : 0}
+										</span>
+										<button
+											onClick={() => dispatch(incrementQuantity(product))}
+										>
 											<AddIcon />
 										</button>
 									</div>
 								) : (
 									<button
 										className={styles.add_to_cart}
-										onClick={() => handleCartAmount()}
+										onClick={() => {
+											dispatch(addToCart(product));
+										}}
 									>
 										Add to Cart
 									</button>
@@ -154,3 +204,17 @@ const Watch = () => {
 };
 
 export default Watch;
+
+export const getServerSideProps = async (context) => {
+	const { params } = context;
+	const { slug } = params;
+
+	await db.connect();
+	const product = await Product.findOne({ slug: slug }).lean();
+	await db.disconnect();
+	return {
+		props: {
+			product: db.convertDocToObj(product),
+		},
+	};
+};

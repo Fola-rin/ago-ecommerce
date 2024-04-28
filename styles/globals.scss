@@ -11,6 +11,7 @@
 	text-decoration: none;
 	background: none;
 	border: none;
+	scroll-behavior: smooth;
 }
 .transition,
 .transition:hover {
@@ -60,9 +61,8 @@ p {
 
 .header {
 	position: sticky;
-	z-index: 1;
+	z-index: 10;
 	top: 0;
-
 	width: 100%;
 	background: #010d19;
 	.header-wrapper {
@@ -128,6 +128,49 @@ p {
 			.link {
 				&:first-child {
 					margin-right: 40px;
+				}
+			}
+			.profile-dropdown {
+				margin-right: 30px;
+				position: relative;
+				.profile-trigger {
+					color: inherit;
+					display: flex;
+					align-items: center;
+					img {
+						width: 40px;
+						height: 40px;
+						object-fit: cover;
+						border-radius: 500px;
+						border: 3px solid #be7530;
+					}
+				}
+				.profile-contents {
+					position: absolute;
+					top: 120%;
+					left: 50%;
+					transform: translateX(-50%);
+					padding: 15px 20px;
+					background-color: white;
+					box-shadow: rgb(204 204 204 / 20%) 3px 3px 5px 2px;
+					border-radius: 10px;
+					color: #010d19;
+					p {
+						white-space: nowrap;
+						font-weight: 500;
+						margin-bottom: 10px;
+					}
+					.signout {
+						display: block;
+						white-space: nowrap;
+						padding: 10px;
+						text-transform: uppercase;
+						background-color: #e04b4b;
+						border-radius: 3px;
+						font-weight: 500;
+						font-size: 15px;
+						color: #fff;
+					}
 				}
 			}
 			.cart-icon {
@@ -249,6 +292,132 @@ p {
 					}
 				}
 			}
+		}
+	}
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+	0% {
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	50% {
+		-webkit-transform: rotate(300deg);
+		-o-transform: rotate(300deg);
+		transform: rotate(300deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotating {
+	0% {
+		-ms-transform: rotate(0deg);
+		-moz-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	50% {
+		-ms-transform: rotate(300deg);
+		-moz-transform: rotate(300deg);
+		-webkit-transform: rotate(300deg);
+		-o-transform: rotate(300deg);
+		transform: rotate(300deg);
+	}
+	100% {
+		-ms-transform: rotate(360deg);
+		-moz-transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		-o-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
+@-webkit-keyframes breathing {
+	0% {
+		-webkit-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+
+	25% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	50% {
+		-webkit-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+	75% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+	100% {
+		-webkit-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+}
+
+@keyframes breathing {
+	0% {
+		-webkit-transform: scale(0.9);
+		-ms-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+
+	25% {
+		-webkit-transform: scale(1);
+		-ms-transform: scale(1);
+		transform: scale(1);
+	}
+
+	50% {
+		-webkit-transform: scale(0.9);
+		-ms-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+	75% {
+		-webkit-transform: scale(1);
+		-ms-transform: scale(1);
+		transform: scale(1);
+	}
+
+	100% {
+		-webkit-transform: scale(0.9);
+		-ms-transform: scale(0.9);
+		transform: scale(0.9);
+	}
+}
+
+.full-screen-loader {
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.416);
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.container {
+		background-color: #fff;
+		color: #010d19b2;
+		padding: 10px;
+		border-radius: 10px;
+		text-align: center;
+		font-size: 15px;
+		.img {
+			-webkit-animation: rotating 1s linear infinite;
+			-moz-animation: rotating 1s linear infinite;
+			-ms-animation: rotating 1s linear infinite;
+			-o-animation: rotating 1s linear infinite;
+			animation: rotating 1s linear infinite;
+			width: 150px;
 		}
 	}
 }

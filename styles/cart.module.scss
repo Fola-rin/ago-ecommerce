@@ -180,4 +180,23 @@
 			}
 		}
 	}
+	.empty_cart {
+		text-align: center;
+		padding-top: 100px;
+		h3 {
+			font-size: 22px;
+			margin-bottom: 5px;
+		}
+
+		a {
+			font-size: 15px;
+			transition: 200ms ease;
+			display: inline-block;
+			&:hover {
+				transition: 200ms ease;
+				color: #e0874b;
+				transform: scale(1.03);
+			}
+		}
+	}
 }

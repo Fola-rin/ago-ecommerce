@@ -8,6 +8,7 @@
 		margin: auto;
 		.search_container {
 			margin-bottom: 30px;
+			padding: 0 120px;
 			.search_wrapper {
 				position: relative;
 				width: fit-content;
@@ -77,11 +78,14 @@
 					position: absolute;
 					z-index: 10;
 					top: 110%;
-					left: 0;
+					right: 0;
 					border: 1px solid #cfcfcf;
 					border-radius: 5px;
 					background-color: #fafafa;
 					padding: 5px 0;
+					width: fit-content;
+					white-space: nowrap;
+
 					p {
 						font-size: 15px;
 						padding: 5px 10px;
@@ -100,14 +104,24 @@
 				}
 			}
 		}
+		h2.search_name {
+			padding: 0 120px 20px 0;
+			text-align: center;
+			width: 77%;
+			margin-left: auto;
+		}
 		.products_container {
 			display: flex;
 			justify-content: space-between;
 			padding: 20px 120px;
 			margin-bottom: 60px;
+
 			.filter_wrapper {
 				// width: 300px;
 				width: 20%;
+				position: sticky;
+				top: 127px;
+				align-self: flex-start;
 				h2 {
 					font-size: 21px;
 					margin-bottom: 20px;
@@ -195,7 +209,7 @@
 					.img_wrapper {
 						width: 120px;
 						margin: auto;
-						max-height: 550px;
+						height: 200px;
 						margin-bottom: 20px;
 						a {
 							display: block;
@@ -209,9 +223,12 @@
 							}
 
 							span {
-								max-height: 550px;
+								height: 100% !important;
+								height: 100% !important;
 
 								img {
+									height: 100% !important;
+									height: 100% !important;
 									object-fit: contain;
 								}
 							}
@@ -307,7 +324,7 @@
 				&:first-child {
 					margin-right: 40px;
 				}
-				a {
+				button {
 					display: flex;
 					width: 25px;
 					height: 25px;
@@ -315,8 +332,15 @@
 					display: flex;
 					align-items: center;
 					justify-content: center;
-					border: 1px solid #cfcfcf;
+					border: 1px solid #010d19;
 					transition: 300ms ease;
+					&.inactive {
+						opacity: 0.3;
+						&:hover {
+							transition: none;
+							transform: none;
+						}
+					}
 					&:hover {
 						transition: 300ms ease;
 						transform: scale(1.05);
@@ -349,8 +373,7 @@
 
 					&:hover {
 						transition: background-color 200ms ease;
-						background-color: #010d19;
-						color: #fff;
+						background-color: #cfcfcf;
 						transform: scale(1.03);
 					}
 					&.active {

@@ -185,7 +185,7 @@
 					font-weight: 600;
 					margin-bottom: 10px;
 				}
-				P {
+				p {
 					margin-bottom: 25px;
 					font-size: 17px;
 				}
@@ -266,7 +266,7 @@
 					margin-bottom: 15px;
 					line-height: 51px;
 				}
-				P {
+				p {
 					margin-bottom: 25px;
 					font-size: 17px;
 				}
@@ -374,10 +374,13 @@
 						color: #e0874b;
 					}
 				}
-				P {
+				p {
 					margin-bottom: 25px;
 					font-size: 17px;
 					color: #313131;
+					b {
+						color: #e0874b;
+					}
 				}
 				a {
 					display: block;

@@ -1,0 +1,113 @@
+.auth_container {
+	background-color: #fafafa;
+	color: #010d19;
+	min-height: 700px;
+	padding: 120px;
+
+	.auth_wrapper {
+		// border: 1px solid #cfcfcf;
+		background-color: white;
+		box-shadow: rgb(204 204 204 / 20%) 3px 3px 5px 2px;
+		border-radius: 10px;
+		padding: 20px 30px 30px;
+		width: 100%;
+		max-width: 500px;
+		margin: auto;
+		.logo {
+			width: 100px;
+			margin: 0 auto 6px;
+		}
+		.title {
+			text-align: center;
+			margin-bottom: 30px;
+		}
+		.form_div {
+			form {
+				margin-bottom: 30px;
+
+				.email_login {
+					margin-bottom: 25px;
+					div {
+						&:first-of-type {
+							margin-bottom: 15px;
+						}
+					}
+					label {
+						font-size: 14px;
+						color: #010d19b2;
+						display: block;
+						margin-bottom: 5px;
+					}
+					input {
+						width: 100%;
+						display: block;
+						border: 1px solid #cfcfcf;
+						border-radius: 5px;
+						padding: 12px;
+						color: #010d19;
+						font-size: 15px;
+					}
+				}
+				button {
+					display: block;
+					width: fit-content;
+					padding: 12px 60px;
+					text-transform: uppercase;
+					background-color: #e0874b;
+					border-radius: 3px;
+					font-weight: 500;
+					font-size: 16px;
+					transition: 300ms ease;
+					color: #fff;
+					text-align: center;
+					width: 100%;
+					margin-bottom: 10px;
+					&:hover {
+						background-color: #d8854c;
+						transition: 300ms ease;
+					}
+				}
+				p {
+					font-size: 14px;
+					color: #010d19b2;
+					a {
+						color: #e0874b;
+						font-weight: 600;
+					}
+				}
+			}
+			.divider {
+				position: relative;
+				margin-bottom: 30px;
+				hr {
+					height: 1px;
+					background-color: #cfcfcf;
+				}
+				span {
+					background-color: #fff;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
+					line-height: 0;
+					// display: block;
+					padding: 7px;
+					font-weight: 500;
+				}
+			}
+			.google {
+				border: 1px solid #cfcfcf;
+				border-radius: 5px;
+				padding: 12px;
+				display: flex;
+				align-items: center;
+				width: 100%;
+				margin-bottom: 10px;
+				svg {
+					margin-right: 10px;
+					color: #d8854c;
+				}
+			}
+		}
+	}
+}

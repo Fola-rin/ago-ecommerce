@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Layout from "../components/Layout";
 
-import heroProd from "../public/images/products/hero-prod.png";
+import heroProd from "../public/images/products/Leather1/1.png";
 import showcase1 from "../public/images/products/showcase-06.png";
 import showcase2 from "../public/images/products/showcase-07.png";
 import showcase3 from "../public/images/products/showcase-08.png";
-import twoWatches from "../public/images/products/two-watches.png";
+import twoWatches from "../public/images/products/Silver1/1.png";
 import thirdShowcase from "../public/images/products/third_showcase.jpg";
 import bestPlace from "../public/images/products/best-place.jpg";
 
@@ -26,13 +26,17 @@ export default function Home() {
 					>
 						<div className={styles.text_wrapper}>
 							<p className={styles.sub_heading}>New Product</p>
-							<h1>Machine Three-Hand Date Brown Leather Watch</h1>
+							<h1>Hector Alcazar Premium Leather Watch</h1>
 							<p className={styles.main_desc}>
-								Minim magna id officia cillum. Irure dolor aliquip non qui velit
-								ad officia. Amet irure minim cupidatat sint ut pariatur aute
-								dolor adipisicing labore ea reprehenderit eu nostrud.
+								I believe a watch can be more helpful than you think. It can
+								lift your style and probably your life to a whole new level. So
+								if you have not done it yet, WHY NOT START WEARING A WATCH
+								TODAY?
 							</p>
-							<Link href="/" passHref>
+							<Link
+								href="/watches/hector-alcazar-premium-leather-watch"
+								passHref
+							>
 								<a>See Product</a>
 							</Link>
 						</div>
@@ -122,11 +126,12 @@ export default function Home() {
 						</div>
 
 						<div className={styles.text_wrapper}>
-							<h3>Black Silver Luxury Watch</h3>
+							<h3>The Lure of Adventure Silver Watch</h3>
 							<p>
-								Minim magna id officia cillum. Irure dolor aliquip non qui velit
-								ad officia. Amet irure minim cupidatat sint ut pariatur aute
-								dolor adipisicing labore ea reprehenderit eu nostrud
+								The Lure of Adventure Silver Watch is a stylish and functional
+								timepiece for adventurous individuals. With a durable silver
+								design, it is suitable for outdoor exploration and taking on new
+								challenges.
 							</p>
 							<Link href="/" passHref>
 								<a>See product</a>
@@ -137,7 +142,7 @@ export default function Home() {
 						<div className={styles.text_wrapper}>
 							<h3>New Products</h3>
 							<p>Check out our large catalog of luxury watches.</p>
-							<Link href="/" passHref>
+							<Link href="/watches" passHref>
 								<a>Shop now</a>
 							</Link>
 						</div>
@@ -161,8 +166,8 @@ export default function Home() {
 						</div>
 
 						<div className={styles.text_wrapper}>
-							<h3>Black Silver Luxury Watch</h3>
-							<Link href="/" passHref>
+							<h3>Broken Paradise Silver Watch</h3>
+							<Link href="/watches/broken-paradise-silver-watch" passHref>
 								<a>See product</a>
 							</Link>
 						</div>
@@ -173,17 +178,16 @@ export default function Home() {
 								The <span>best</span> place to shop for watches
 							</h3>
 							<p>
-								Irure Lorem sint magna mollit aliqua do aliqua do dolore nulla.
-								Ea duis aute elit irure ut sunt fugiat ullamco. Voluptate quis
-								est sit deserunt excepteur. Commodo esse tempor tempor velit
-								cillum ea anim ex. Pariatur nostrud in minim tempor fugiat et
-								incididunt incididunt. Et consequat ipsum est esse enim. Dolor
-								aliquip cillum esse laboris exercitation Lorem amet nulla amet
-								voluptate sit officia. Nisi cillum commodo minim occaecat in
-								dolore voluptate do sint pariatur nulla. Et mollit minim
-								proident Lorem.
+								Watches have become more than just a time-telling device, they
+								have become a fashion statement and an extension of one&apos;s
+								personal style. With so many styles, brands, and features to
+								choose from, finding the perfect watch can be a challenging
+								task. The right place to purchase a watch can make all the
+								difference in the quality of the product you receive and the
+								overall shopping experience. One of the best places to shop for
+								a watch is <b>e-choke</b>.
 							</p>
-							<Link href="/" passHref>
+							<Link href="/watches" passHref>
 								<a>Shop Now</a>
 							</Link>
 						</div>

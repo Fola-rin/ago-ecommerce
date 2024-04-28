@@ -18,8 +18,9 @@ const Footer = () => {
 							</Link>
 						</div>
 						<p>
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-							eiusmod tempor incididunt ut labore et dolore magna aliqua.
+							I believe a watch can be more helpful than you think. It can lift
+							your style and probably your life to a whole new level. So if you
+							have not done it yet, WHY NOT START WEARING A WATCH TODAY?
 						</p>
 						<div className="socials">
 							<div className="link">
@@ -76,13 +77,13 @@ const Footer = () => {
 							</p>
 							<div className="links">
 								<div className="link">
-									<Link href="/">Watches</Link>
+									<Link href="/watches">Watches</Link>
 								</div>
 								<div className="link">
-									<Link href="/">Sun Glasses</Link>
+									<Link href="/under-construction">Sun Glasses</Link>
 								</div>
 								<div className="link">
-									<Link href="/">Shoes</Link>
+									<Link href="/under-construction">Shoes</Link>
 								</div>
 							</div>
 						</div>
@@ -93,7 +94,7 @@ const Footer = () => {
 							</p>
 							<div className="links">
 								<div className="link">
-									<Link href="mailto:oyelekefolarin@gmail.com" passHref>
+									<Link href="mailto:oyefola1@gmail.com" passHref>
 										<a> Get in touch</a>
 									</Link>
 								</div>

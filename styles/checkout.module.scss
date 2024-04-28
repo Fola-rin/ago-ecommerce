@@ -13,6 +13,7 @@
 			font-weight: 500;
 			transition: 200ms ease;
 			width: fit-content;
+			cursor: pointer;
 			&:hover {
 				transition: 200ms ease;
 				color: #e0874b;
@@ -35,6 +36,8 @@
 				box-shadow: rgb(204 204 204 / 20%) 3px 3px 5px 2px;
 				border-radius: 4px;
 				padding: 20px;
+				position: sticky;
+				top: 137px;
 				form {
 					label {
 						font-size: 14px;

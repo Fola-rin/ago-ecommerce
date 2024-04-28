@@ -5,253 +5,605 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../styles/watches.module.scss";
 import { useState } from "react";
 import Image from "next/image";
-import heroProd from "../../public/images/products/hero-prod.png";
+// import heroProd from "../../public/images/products/hero-prod.png";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Link from "next/link";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import db from "../../utils/db";
+import Product from "../../models/Product";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import FullScreenLogoLoader from "../../components/Layout/FullScreenLogoLoader";
+import axios from "axios";
+import { set } from "mongoose";
+import slugify from "../../utils/slugify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	addToCart,
+	incrementQuantity,
+	decrementQuantity,
+} from "../../redux/cart.slice";
 
-const Watches = () => {
+const Watches = ({ products, totalPages, currentPage, totalCount }) => {
+	function arrayEquals(a, b) {
+		return (
+			Array.isArray(a) &&
+			Array.isArray(b) &&
+			a.length === b.length &&
+			a.every((val, index) => val === b[index])
+		);
+	}
+	const router = useRouter();
+	const dispatch = useDispatch();
+
+	const cartData = useSelector((state) => state.cart);
+	console.log("cartData", cartData);
+
 	const [openSort, setOpenSort] = useState(false);
-	const [checkedLocations, setCheckedLocations] = useState([]);
+	const [filterArr, setfilterArr] = useState([]);
+	const [filterChecked, setFilterChecked] = useState({
+		Silver: false,
+		Leather: false,
+		Gold: false,
+		a: false,
+		b: false,
+		c: false,
+	});
+	const [newLoad, setNewLoad] = useState(true);
+	const [loadedProducts, setLoadedProducts] = useState(products);
+	const [loadedTotalPages, setLoadedTotalPages] = useState(totalPages);
+	const [loadedCurrentPage, setLoadedCurrentPage] = useState(currentPage);
+	const [loadedTotalCount, setLoadedTotalCount] = useState(totalCount);
+	const [searchStr, setSearchStr] = useState("");
+	const [numFilterArray, setNumFilterArray] = useState([]);
+
+	const [loading, setLoading] = useState(false);
+
 	const [cart, setCart] = useState(0);
 
-	const handleTypeClick = (id) => {
-		if (checkedLocations.includes(id)) {
-			const arr = checkedLocations.filter((item) => item !== id);
-			setCheckedLocations(arr);
+	const { query } = useRouter();
+
+	const queryStringMaker = (params) => {
+		const queryString = `?${params.page ? "page=" + params.page : ""}${
+			params.sortBy
+				? `&sortBy=${params.sortBy}&sortType=${params.sortType}`
+				: ""
+		}${params.numCat ? `&numCat=${params.numCat}` : ""}${
+			params.filterCat ? `&filterCat=${params.filterCat}` : ""
+		}${params.searchStr ? `&searchStr=${params.searchStr}` : ""}`;
+
+		console.log("params", params.numCat);
+		return queryString;
+	};
+
+	const handleTypeClick = (id, name) => {
+		setNewLoad(false);
+		if (id >= 1 && id <= 3) {
+			if (filterArr.includes(name)) {
+				const arr = filterArr.filter((item) => item !== name);
+				setfilterArr(arr);
+			} else {
+				setfilterArr((prevValue) => [...prevValue, name]);
+			}
 		} else {
-			setCheckedLocations((prevValue) => [...prevValue, id]);
+			if (numFilterArray.includes(name)) {
+				const arr = numFilterArray.filter((item) => item !== name);
+				setNumFilterArray(arr);
+			} else {
+				setNumFilterArray((prevValue) => [...prevValue, name]);
+			}
 		}
 	};
+
 	const handleCartAmount = () => {
 		setCart(1);
 	};
+
+	const handleSort = (by, type) => {
+		setOpenSort(false);
+		const url = queryStringMaker({
+			...query,
+			sortBy: by,
+			sortType: type,
+		});
+		router.push(url, undefined, {
+			shallow: true,
+		});
+		return;
+	};
+	const sortName = (by, type) => {
+		if (by == "price") {
+			if (type == 1) {
+				return "Price(Low to High)";
+			} else {
+				return "Price(High to Low)";
+			}
+		} else {
+			if (type == 1) {
+				return "Alphabetical(a-z)";
+			} else if (type == -1) {
+				return "Alphabetical(z-a)";
+			} else {
+				return "None";
+			}
+		}
+	};
+
+	const handlePage = ({ pageNum, direction }) => {
+		if (direction === "right") {
+			if (loadedCurrentPage < loadedTotalPages) {
+				const url = queryStringMaker({
+					...query,
+					page: parseInt(loadedCurrentPage) + 1,
+				});
+				router.push(url, undefined, {
+					shallow: true,
+				});
+				return;
+			}
+			return;
+		}
+		if (direction === "left") {
+			if (loadedCurrentPage > 1) {
+				const url = queryStringMaker({
+					...query,
+					page: parseInt(loadedCurrentPage) - 1,
+				});
+				router.push(url, undefined, {
+					shallow: true,
+				});
+				return;
+			}
+			return;
+		}
+		if (pageNum) {
+			return;
+		}
+	};
+	const handleSearch = () => {
+		console.log(filterArr);
+		if (!newLoad) {
+			const url = queryStringMaker({
+				...query,
+				searchStr: searchStr,
+			});
+			router.push(url, undefined, {
+				shallow: true,
+			});
+			return;
+		}
+	};
+
+	const count = 0;
+	useEffect(() => {
+		const countTimer = setTimeout(() => {
+			setNewLoad(false);
+			if (!newLoad) {
+				const url = queryStringMaker({
+					...query,
+					numCat:
+						numFilterArray && numFilterArray.length !== 0
+							? JSON.stringify(numFilterArray)
+							: null,
+				});
+				console.log("numFilterArray", numFilterArray);
+				router.push(url, undefined, {
+					shallow: true,
+				});
+				return;
+			}
+		}, 1000);
+		return () => {
+			clearTimeout(countTimer);
+		};
+	}, [numFilterArray]);
+	useEffect(() => {
+		const countTimer = setTimeout(() => {
+			setNewLoad(false);
+			if (!newLoad) {
+				const url = queryStringMaker({
+					...query,
+					filterCat:
+						filterArr && filterArr.length !== 0
+							? JSON.stringify(filterArr)
+							: null,
+				});
+				router.push(url, undefined, {
+					shallow: true,
+				});
+				return;
+			}
+		}, 1000);
+		return () => {
+			clearTimeout(countTimer);
+		};
+	}, [filterArr]);
+	useEffect(() => {
+		if (newLoad) {
+			if (query.filterCat || query.numCat) {
+				const numCatArr = query.numCat ? JSON.parse(query.numCat) : [];
+				setNumFilterArray(numCatArr);
+				const filterCatArr = query.filterCat ? JSON.parse(query.filterCat) : [];
+				setfilterArr(filterCatArr);
+				const myArr = [...numCatArr, ...filterCatArr];
+
+				let newChecked = filterChecked;
+				myArr.map((name) => {
+					newChecked = { ...newChecked, [name]: true };
+				});
+
+				setFilterChecked(newChecked);
+				return;
+			}
+			setNewLoad(false);
+		} else {
+			if (query.filterCat) {
+				if (arrayEquals(filterArr, JSON.parse(query.filterCat)) === false) {
+					setfilterArr(JSON.parse(query.filterCat));
+				}
+			} else if (filterArr) {
+				setNewLoad(true);
+				setfilterArr([]);
+			}
+			if (query.numCat) {
+				if (arrayEquals(numFilterArray, JSON.parse(query.numCat)) === false) {
+					setNumFilterArray(JSON.parse(query.numCat));
+				}
+			} else if (numFilterArray) {
+				setNumFilterArray([]);
+				setNewLoad(true);
+			}
+			const url = queryStringMaker(query);
+			setLoading(true);
+			axios({
+				method: "get",
+				url: `/api/products/${url}`,
+			})
+				.then((response) => {
+					console.log(response);
+					setLoadedProducts(response.data.products);
+					setLoadedTotalCount(response.data.totalCount);
+					setLoadedTotalPages(response.data.totalPages);
+					setLoadedCurrentPage(response.data.currentPage);
+					setLoading(false);
+					window.scrollTo({
+						top: 0,
+						left: 0,
+						behavior: "smooth",
+					});
+				})
+				.catch((error) => {
+					setLoading(false);
+					console.log(error.message);
+				});
+		}
+	}, [query]);
+
 	return (
-		<Layout>
-			<div className={styles.watches_container}>
-				<div className={styles.watches_wrapper}>
-					<div className={styles.search_container}>
-						<div className={styles.search_wrapper}>
-							<input type="text" placeholder="Search for watches" />
-							<div>
-								<button>
-									<Search />
+		<>
+			{loading ? <FullScreenLogoLoader /> : ""}
+			<Layout>
+				<div className={styles.watches_container}>
+					<div className={styles.watches_wrapper}>
+						<div className={styles.search_container}>
+							<div className={styles.search_wrapper}>
+								<input
+									type="text"
+									placeholder="Search for watches"
+									value={searchStr}
+									onChange={(e) => setSearchStr(e.target.value)}
+								/>
+								<div>
+									<button onClick={() => handleSearch()}>
+										<Search />
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<div className={styles.sort_container}>
+							<p className={styles.results}>
+								Showing {loadedTotalCount} products
+							</p>
+							<div className={styles.sort_wrapper}>
+								<div
+									className={styles.trigger}
+									onClick={() => setOpenSort(!openSort)}
+								>
+									{query.sortBy && query.sortType
+										? sortName(query.sortBy, query.sortType)
+										: "None"}
+									<KeyboardArrowDownIcon />
+								</div>
+								{openSort ? (
+									<div className={styles.dropdown}>
+										<p
+											className={
+												sortName(query.sortBy, query.sortType) === "None"
+													? styles.selected
+													: ""
+											}
+											onClick={() => handleSort("", 0)}
+										>
+											None
+										</p>
+										<p
+											onClick={() => handleSort("name", 1)}
+											className={
+												sortName(query.sortBy, query.sortType) ===
+												"Alphabetical(a-z)"
+													? styles.selected
+													: ""
+											}
+										>
+											Alphabetical(a-z)
+										</p>
+										<p
+											onClick={() => handleSort("name", -1)}
+											className={
+												sortName(query.sortBy, query.sortType) ===
+												"Alphabetical(z-a)"
+													? styles.selected
+													: ""
+											}
+										>
+											Alphabetical(z-a)
+										</p>
+										<p
+											onClick={() => handleSort("price", 1)}
+											className={
+												sortName(query.sortBy, query.sortType) ===
+												"Price(Low to High)"
+													? styles.selected
+													: ""
+											}
+										>
+											Price(Low to High)
+										</p>
+										<p
+											onClick={() => handleSort("price", -1)}
+											className={
+												sortName(query.sortBy, query.sortType) ===
+												"Price(High to Low)"
+													? styles.selected
+													: ""
+											}
+										>
+											Price(High to Low)
+										</p>
+									</div>
+								) : (
+									""
+								)}
+							</div>
+						</div>
+						{query.searchStr ? (
+							<h2 className={styles.search_name}>
+								Showing search results for &ldquo;{query.searchStr}&ldquo;
+							</h2>
+						) : (
+							""
+						)}
+						<div className={styles.products_container}>
+							<div className={styles.filter_wrapper}>
+								<div className={styles.filter}>
+									<p className={styles.title}>Type</p>
+									<div className={styles.contents}>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${1}`}
+												onChange={() => handleTypeClick(1, "Silver")}
+												checked={filterArr.includes("Silver")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${1}`}>
+												Silver
+											</label>
+										</div>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${2}`}
+												onChange={() => handleTypeClick(2, "Leather")}
+												checked={filterArr.includes("Leather")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${2}`}>
+												Leather
+											</label>
+										</div>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${3}`}
+												onChange={() => handleTypeClick(3, "Gold")}
+												checked={filterArr.includes("Gold")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${3}`}>
+												Gold
+											</label>
+										</div>
+									</div>
+								</div>
+								<div className={styles.filter}>
+									<p className={styles.title}>Price</p>
+									<div className={styles.contents}>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${4}`}
+												onChange={() => handleTypeClick(4, "a")}
+												checked={numFilterArray.includes("a")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${4}`}>
+												Below 100
+											</label>
+										</div>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${5}`}
+												onChange={() => handleTypeClick(5, "b")}
+												checked={numFilterArray.includes("b")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${5}`}>
+												100 to 200
+											</label>
+										</div>
+										<div className={styles.content}>
+											<input
+												type="checkbox"
+												className="checkbox"
+												id={`checkbox${6}`}
+												onChange={() => handleTypeClick(6, "c")}
+												checked={numFilterArray.includes("c")}
+											/>{" "}
+											<label className="checkboxLabel" htmlFor={`checkbox${6}`}>
+												Above 200
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className={styles.products_wrapper}>
+								{loadedProducts.map((product) => (
+									<Card
+										key={product._id}
+										cart={cart}
+										setCart={setCart}
+										handleCartAmount={handleCartAmount}
+										name={product.name}
+										image={product.image}
+										price={product.price}
+										oldPrice={product.oldPrice}
+										newItem={product.newItem}
+										slug={product.slug}
+										cartItem={product}
+									/>
+								))}
+							</div>
+						</div>
+						<div className={styles.pagination_wrapper}>
+							<div className={styles.icon}>
+								<button
+									onClick={() => handlePage({ direction: "left" })}
+									className={`${loadedCurrentPage <= 1 ? styles.inactive : ""}`}
+								>
+									<ChevronLeftIcon />
+								</button>
+							</div>
+							<div className={styles.contents}>
+								{[...Array(loadedTotalPages + 1).keys()].map((i) =>
+									i > 0 ? (
+										<Link
+											key={i}
+											href={{
+												pathname: router.pathname,
+												query: { ...query, page: i },
+											}}
+											passHref
+											shallow
+											replace
+										>
+											<a
+												onClick={() => handlePage({ pageNum: i })}
+												className={i == loadedCurrentPage ? styles.active : ""}
+											>
+												{i}
+											</a>
+										</Link>
+									) : (
+										""
+									)
+								)}
+							</div>
+							<div className={styles.icon}>
+								<button
+									onClick={() => handlePage({ direction: "right" })}
+									className={`${
+										loadedCurrentPage >= loadedTotalPages ? styles.inactive : ""
+									}`}
+								>
+									<ChevronRightIcon />
 								</button>
 							</div>
 						</div>
 					</div>
-					<div className={styles.sort_container}>
-						<p className={styles.results}>Showing 85 products</p>
-						<div className={styles.sort_wrapper}>
-							<div
-								className={styles.trigger}
-								onClick={() => setOpenSort(!openSort)}
-							>
-								Sort by: Price(Low to High) <KeyboardArrowDownIcon />
-							</div>
-							{openSort ? (
-								<div className={styles.dropdown}>
-									<p>Newest Arrivals</p>
-									<p className={styles.selected}>Price(Low to High)</p>
-									<p>Price(High to Low)</p>
-								</div>
-							) : (
-								""
-							)}
-						</div>
-					</div>
-					<div className={styles.products_container}>
-						<div className={styles.filter_wrapper}>
-							<div className={styles.filter}>
-								<p className={styles.title}>Type</p>
-								<div className={styles.contents}>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${1}`}
-											onClick={() => handleTypeClick(1)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${1}`}>
-											Silver
-										</label>
-									</div>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${2}`}
-											onClick={() => handleTypeClick(2)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${2}`}>
-											Leather
-										</label>
-									</div>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${3}`}
-											onClick={() => handleTypeClick(3)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${3}`}>
-											Gold
-										</label>
-									</div>
-								</div>
-							</div>
-							<div className={styles.filter}>
-								<p className={styles.title}>Price</p>
-								<div className={styles.contents}>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${1}`}
-											onClick={() => handleTypeClick(1)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${1}`}>
-											Below 100
-										</label>
-									</div>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${2}`}
-											onClick={() => handleTypeClick(2)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${2}`}>
-											100 to 200
-										</label>
-									</div>
-									<div className={styles.content}>
-										<input
-											type="checkbox"
-											className="checkbox"
-											id={`checkbox${3}`}
-											onClick={() => handleTypeClick(3)}
-										/>{" "}
-										<label className="checkboxLabel" htmlFor={`checkbox${3}`}>
-											Above 200
-										</label>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div className={styles.products_wrapper}>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-								sale
-								newItem
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-								sale
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-							/>
-							<Card
-								cart={cart}
-								setCart={setCart}
-								handleCartAmount={handleCartAmount}
-							/>
-						</div>
-					</div>
-					<div className={styles.pagination_wrapper}>
-						<div className={styles.icon}>
-							<Link href="/watches" passHref>
-								<a>
-									<ChevronLeftIcon />
-								</a>
-							</Link>
-						</div>
-						<div className={styles.contents}>
-							<Link href="/" passHref>
-								<a className={styles.active}>1</a>
-							</Link>
-							<Link href="/" passHref>
-								<a>2</a>
-							</Link>{" "}
-							<Link href="/" passHref>
-								<a>3</a>
-							</Link>{" "}
-							<div>...</div>
-							<Link href="/" passHref>
-								<a>4</a>
-							</Link>
-						</div>
-						<div className={styles.icon}>
-							<Link href="/watches" passHref>
-								<a>
-									<ChevronRightIcon />
-								</a>
-							</Link>
-						</div>
-					</div>
 				</div>
-			</div>
-		</Layout>
+			</Layout>
+		</>
 	);
 };
 
 export default Watches;
 
-const Card = ({ cart, setCart, handleCartAmount, newItem, sale }) => {
+const Card = ({
+	cart,
+	setCart,
+	handleCartAmount,
+	newItem,
+	name,
+	price,
+	oldPrice,
+	image,
+	slug,
+	cartItem,
+}) => {
+	const cartData = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+	const cartProductInfo = cartData.find((item) => item._id === cartItem._id);
+
 	return (
 		<div className={styles.card}>
 			<div className={styles.utility_wrapper}>
 				{newItem ? <div className={styles.new}>NEW</div> : ""}
-				{sale ? <div className={styles.sale}>SALE</div> : ""}
+				{oldPrice !== 0 ? <div className={styles.sale}>SALE</div> : ""}
 			</div>
 			<div className={styles.img_wrapper}>
-				<Link href="/watches/a_beautiful_watch" passHref>
+				<Link href={`/watches/${slug}`} passHref>
 					<a>
-						<Image src={heroProd} alt="" />
+						<Image
+							src={`/${image}/1.png`}
+							alt=""
+							width={"100%"}
+							height="100%"
+						/>
 					</a>
 				</Link>
 			</div>
-			<h3>Carlie Three-Hand White Leather Watch</h3>
-			<p className={styles.price}>{sale ? <span>$6,000</span> : ""}$4,000</p>
+			<h3>{name}</h3>
+			<p className={styles.price}>
+				{oldPrice !== 0 ? <span>${oldPrice}</span> : ""}${price}
+			</p>
 			<div className={styles.link_wrapper}>
-				{cart === 0 ? (
+				{!cartProductInfo ? (
 					<button
 						className={styles.add_to_cart}
-						onClick={() => handleCartAmount()}
+						onClick={() => {
+							dispatch(addToCart(cartItem));
+						}}
 					>
 						Add to Cart
 					</button>
 				) : (
 					<div className={styles.cart_counter}>
-						<button onClick={() => setCart(cart - 1)}>
+						<button
+							onClick={() => {
+								dispatch(decrementQuantity(cartItem));
+							}}
+						>
 							<RemoveIcon />
 						</button>
-						<span>{cart}</span>
-						<button onClick={() => setCart(cart + 1)}>
+						<span>
+							{cartProductInfo.quantity ? cartProductInfo.quantity : 0}
+						</span>
+						<button onClick={() => dispatch(incrementQuantity(cartItem))}>
 							<AddIcon />
 						</button>
 					</div>
@@ -259,4 +611,76 @@ const Card = ({ cart, setCart, handleCartAmount, newItem, sale }) => {
 			</div>
 		</div>
 	);
+};
+
+export const getServerSideProps = async (context) => {
+	await db.connect();
+
+	let {
+		page = 1,
+		limit = 7,
+		sortBy,
+		sortType,
+		filterCat,
+		lowNum = 0,
+		highNum = 1000,
+		numCat,
+		searchStr = "",
+	} = context.query;
+
+	let numObj = { a: [0, 99], b: [100, 200], c: [201, 1000] };
+	if (numCat) {
+		numCat = JSON.parse(numCat);
+		console.log(numCat);
+
+		lowNum = numObj[numCat[0][0]];
+		highNum = numObj[numCat[0][1]];
+
+		numCat.forEach((numAlpha) => {
+			lowNum = lowNum < numObj[numAlpha][0] ? lowNum : numObj[numAlpha][0];
+			highNum = highNum > numObj[numAlpha][1] ? highNum : numObj[numAlpha][1];
+		});
+
+		console.log("numbers", [lowNum, highNum]);
+	}
+	const sortOptions = { [sortBy]: sortType };
+
+	const options =
+		searchStr === ""
+			? filterCat
+				? {
+						category: { $in: JSON.parse(filterCat) },
+						price: { $gte: lowNum, $lte: highNum },
+				  }
+				: {
+						price: { $gte: lowNum, $lte: highNum },
+				  }
+			: filterCat
+			? {
+					name: { $regex: searchStr, $options: "$i" },
+					category: { $in: JSON.parse(filterCat) },
+					price: { $gte: lowNum, $lte: highNum },
+			  }
+			: {
+					name: { $regex: searchStr, $options: "$i" },
+					price: { $gte: lowNum, $lte: highNum },
+			  };
+	const products = await Product.find(options)
+		.sort(sortBy && sortType ? sortOptions : null)
+		.limit(limit)
+		.skip((page - 1) * limit)
+		.lean()
+		.exec();
+
+	const countProducts = await Product.find(options).exec();
+	const count = countProducts.length;
+	await db.disconnect();
+	return {
+		props: {
+			products: products.map(db.convertDocToObj),
+			totalPages: Math.ceil(count / limit),
+			currentPage: page,
+			totalCount: count,
+		},
+	};
 };
