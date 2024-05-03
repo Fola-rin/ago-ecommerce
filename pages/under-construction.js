@@ -10,7 +10,7 @@ const UnderConstruction = () => {
 
 				<div className={styles.empty_cart}>
 					<h2 style={{ fontSize: "48px" }}>😢</h2>
-					<h3>We cannot find the page you are looking for!</h3>
+					<h3>The page you&apos;re looking for does not exist!</h3>
 					<p>
 						<Link href="/">
 							<a>Continue shopping</a>

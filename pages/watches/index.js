@@ -5,7 +5,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import styles from "../../styles/watches.module.scss";
 import { useState } from "react";
 import Image from "next/image";
-// import heroProd from "../../public/images/products/hero-prod.png";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Link from "next/link";
@@ -25,6 +24,7 @@ import {
 	incrementQuantity,
 	decrementQuantity,
 } from "../../redux/cart.slice";
+import data from "../../utils/data";
 
 const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 	function arrayEquals(a, b) {
@@ -471,24 +471,31 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 									</div>
 								</div>
 							</div>
-							<div className={styles.products_wrapper}>
-								{loadedProducts.map((product) => (
-									<Card
-										key={product._id}
-										cart={cart}
-										setCart={setCart}
-										handleCartAmount={handleCartAmount}
-										name={product.name}
-										image={product.image}
-										price={product.price}
-										oldPrice={product.oldPrice}
-										newItem={product.newItem}
-										slug={product.slug}
-										cartItem={product}
-									/>
-								))}
-							</div>
+							{loadedTotalCount ?
+								<div className={styles.products_wrapper}>
+									{loadedProducts.map((product) => (
+										<Card
+											key={product._id}
+											cart={cart}
+											setCart={setCart}
+											handleCartAmount={handleCartAmount}
+											name={product.name}
+											image={product.image}
+											price={product.price}
+											oldPrice={product.oldPrice}
+											newItem={product.newItem}
+											slug={product.slug}
+											cartItem={product}
+										/>
+									))}
+								</div>
+								: 
+								<h3 className={styles.no_results}>
+									No results found!
+								</h3>
+							}
 						</div>
+						{loadedTotalCount ?
 						<div className={styles.pagination_wrapper}>
 							<div className={styles.icon}>
 								<button
@@ -534,6 +541,8 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 								</button>
 							</div>
 						</div>
+						: ""
+						}
 					</div>
 				</div>
 			</Layout>
@@ -614,8 +623,6 @@ const Card = ({
 };
 
 export const getServerSideProps = async (context) => {
-	await db.connect();
-
 	let {
 		page = 1,
 		limit = 7,
@@ -628,6 +635,7 @@ export const getServerSideProps = async (context) => {
 		searchStr = "",
 	} = context.query;
 
+	// create object for price ranges
 	let numObj = { a: [0, 99], b: [100, 200], c: [201, 1000] };
 	if (numCat) {
 		numCat = JSON.parse(numCat);
@@ -636,48 +644,104 @@ export const getServerSideProps = async (context) => {
 		lowNum = numObj[numCat[0][0]];
 		highNum = numObj[numCat[0][1]];
 
+		// get the low and high numbers for the price range
 		numCat.forEach((numAlpha) => {
 			lowNum = lowNum < numObj[numAlpha][0] ? lowNum : numObj[numAlpha][0];
 			highNum = highNum > numObj[numAlpha][1] ? highNum : numObj[numAlpha][1];
 		});
-
-		console.log("numbers", [lowNum, highNum]);
 	}
 	const sortOptions = { [sortBy]: sortType };
 
-	const options =
-		searchStr === ""
-			? filterCat
+
+	let products = null;
+	let count = null;
+
+	const mongoDBAvailabilty = await db.connect();
+
+	// use mongo db store if database exists
+	if (mongoDBAvailabilty) {
+		const options =
+			searchStr === ""
+				? filterCat
+					? {
+							category: { $in: JSON.parse(filterCat) },
+							price: { $gte: lowNum, $lte: highNum },
+					}
+					: {
+							price: { $gte: lowNum, $lte: highNum },
+					}
+				: filterCat
 				? {
+						name: { $regex: searchStr, $options: "i" },
 						category: { $in: JSON.parse(filterCat) },
 						price: { $gte: lowNum, $lte: highNum },
-				  }
+				}
 				: {
+						name: { $regex: searchStr, $options: "i" },
 						price: { $gte: lowNum, $lte: highNum },
-				  }
-			: filterCat
-			? {
-					name: { $regex: searchStr, $options: "$i" },
-					category: { $in: JSON.parse(filterCat) },
-					price: { $gte: lowNum, $lte: highNum },
-			  }
-			: {
-					name: { $regex: searchStr, $options: "$i" },
-					price: { $gte: lowNum, $lte: highNum },
-			  };
-	const products = await Product.find(options)
-		.sort(sortBy && sortType ? sortOptions : null)
-		.limit(limit)
-		.skip((page - 1) * limit)
-		.lean()
-		.exec();
+				};
 
-	const countProducts = await Product.find(options).exec();
-	const count = countProducts.length;
-	await db.disconnect();
+		// get the products from the mongo db
+		products = await Product.find(options)
+			.sort(sortBy && sortType ? sortOptions : null)
+			.limit(limit)
+			.skip((page - 1) * limit)
+			.lean()
+			.exec();
+
+		const countProducts = await Product.find(options).exec();
+		count = countProducts.length;
+		await db.disconnect();
+	} else {
+		const totalProductsWithoutDb = data.products;
+
+		// apply filters to the local data array
+		const filterCategory = filterCat ? JSON.parse(filterCat) : null;
+		let finalProducts = totalProductsWithoutDb.filter((item) => {
+			return item.name.toLowerCase().includes(searchStr.toLowerCase()) &&
+			(filterCategory ? filterCategory.includes(item.category) : true) &&
+			(item.price >= lowNum && item.price <= highNum);
+		});
+
+		// apply sort if sort values are passed
+		if (sortBy, sortType) {
+			finalProducts.sort((a, b) => {
+				if (sortBy === "price") {
+					if (+sortType === 1) {
+						return a[sortBy] - b[sortBy];
+					}
+					else {
+						return b[sortBy] - a[sortBy];
+					}
+				}
+				else if (sortBy === "name") {
+					if (+sortType === -1) {
+						console.log(sortType);
+						if (a[sortBy] >  b[sortBy]) {
+							return -1;
+						}
+					}
+					else {
+						if (a[sortBy] <  b[sortBy]) {
+							return -1;
+						}
+					}
+				}
+			});
+		}
+		// get the total number of returned products gotten after filtering
+		count = finalProducts.length;
+
+		if (limit || page) {
+			const paginationStart = (page-1)*limit;
+			finalProducts = finalProducts.slice(paginationStart, limit + paginationStart);
+		}
+		products = finalProducts;
+	}
+	
 	return {
 		props: {
-			products: products.map(db.convertDocToObj),
+			products: mongoDBAvailabilty ? products.map(db.convertDocToObj) : products,
 			totalPages: Math.ceil(count / limit),
 			currentPage: page,
 			totalCount: count,

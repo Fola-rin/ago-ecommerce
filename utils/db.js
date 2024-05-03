@@ -3,33 +3,56 @@ import mongoose from "mongoose";
 const connection = {};
 
 const connect = async () => {
-	if (connection.isConnected) {
-		console.log("connected already");
-		return;
-	}
-	if (mongoose.connections.length > 0) {
-		// console.log(mongoose.connections);
-		connection.isConnected = mongoose.connections[0].readyState;
-		if (connection.isConnected === 1) {
-			console.log("use previous connnection");
-			return;
-		}
-		await mongoose.disconnect();
-	}
-
+	let timeoutHandle;
 	try {
-		const db = await mongoose.connect(process.env.MONGODB_URI);
-		console.log("new connection");
-		connection.isConnected = db.connections[0].readyState;
+		if (connection.isConnected === 1) {
+			console.log("connected already", connection.isConnected);
+			return true;
+		}
+		if (mongoose.connections.length > 0) {
+			connection.isConnected = mongoose.connections[0].readyState;
+			if (connection.isConnected === 1) {
+				console.log("use previous connnection", connection.isConnected);
+				return true;
+			}
+			await disconnect();
+		}
+		const dbPromise = mongoose.connect(process.env.MONGODB_URI);
+
+		// to handle cases where mongo db takes to long to respond, most likely due to errors
+		const timeoutPromise = new Promise((resolve) => {
+			timeoutHandle = setTimeout(
+				() => {
+					resolve(null);
+				}, 3000);
+		});
+
+		return Promise.race([dbPromise, timeoutPromise]).then((db) => {
+			if (db === null) {
+				console.log("Connection timed out!");
+				return false;
+			}
+			if (db.connections[0].readyState === 1) {
+				connection.isConnected = db.connections[0].readyState;
+				return true;
+			}
+				return false;
+			}
+		)
+		.catch((error) => {
+			console.log('ERROR-> mongoose stopped working', error);
+			return false;
+		});
+		
 	} catch (error) {
-		// throw(error);
-		throw error;
+		console.log('ERROR->', error?.reason?.setName)
+		return false;
 	}
 	
 };
 
 const disconnect = async () => {
-	if (connection.isConnected) {
+	if (connection.isConnected === 1) {
 		if (process.env.NODE_ENV === "production") {
 			await mongoose.disconnect();
 			connection.isConnected = false;
