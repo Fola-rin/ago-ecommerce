@@ -21,6 +21,7 @@ import {
 	decrementQuantity,
 } from "../../redux/cart.slice";
 import data from "../../utils/data";
+import Error from "next/error";
 
 const Watch = ({ product }) => {
 	const router = useRouter();
@@ -36,33 +37,16 @@ const Watch = ({ product }) => {
 			setCheckedLocations((prevValue) => [...prevValue, id]);
 		}
 	};
-	// const handleCartAmount = () => {
-	// 	cart === 0 ? setCart(1) : "";
-	// };
+
 	const cartData = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
 	const cartProductInfo = cartData.find((item) => item.slug === product.slug);
-	useEffect(() => {
-		// axios({
-		// 	method: "get",
-		// 	url: `/api/products/${product.slug}`,
-		// })
-		// 	.then((response) => {
-		// 		console.log(response);
-		// 		window.scrollTo({
-		// 			top: 0,
-		// 			left: 0,
-		// 			behavior: "smooth",
-		// 		});
-		// 	})
-		// 	.catch((error) => {
-		// 		setLoading(false);
-		// 		console.log(error.message);
-		// 	});
-		console.log(product);
-	}, []);
 
 	const [show, setShow] = useState([true, false, false, false]);
+
+	if (product === null) {
+		return <Error statusCode={500} title="😱 | No products found!"/>
+	}
 	return (
 		<Layout>
 			<div className={styles.watch_container}>
@@ -221,7 +205,7 @@ export const getServerSideProps = async (context) => {
 	}
 	return {
 		props: {
-			product: mongoDBAvailabilty ? db.convertDocToObj(product) : product,
+			product: mongoDBAvailabilty ? db.convertDocToObj(product) : (product || null),
 		},
 	};
 };
