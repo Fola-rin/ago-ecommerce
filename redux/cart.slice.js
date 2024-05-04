@@ -11,7 +11,7 @@ const cartSlice = createSlice({
 
 	reducers: {
 		addToCart: (state, action) => {
-			const itemExists = state.find((item) => item._id === action.payload._id);
+			const itemExists = state.find((item) => item.slug === action.payload.slug);
 			if (itemExists) {
 				console.log("itemExi", itemExists);
 				itemExists.quantity++;
@@ -20,9 +20,9 @@ const cartSlice = createSlice({
 			}
 		},
 		incrementQuantity: (state, action) => {
-			const itemExists = state.find((item) => item._id === action.payload._id);
+			const itemExists = state.find((item) => item.slug === action.payload.slug);
 			itemExists.quantity++;
-			const lState = state.filter((item) => item._id !== action.payload._id);
+			const lState = state.filter((item) => item.slug !== action.payload.slug);
 			console.log("lol");
 			// Cookies.set(
 			// 	"cartItems",
@@ -33,21 +33,21 @@ const cartSlice = createSlice({
 			// );
 		},
 		fixedQuantity: (state, action) => {
-			const itemExists = state.find((item) => item._id === action.payload._id);
+			const itemExists = state.find((item) => item.slug === action.payload.slug);
 
 			itemExists.quantity = action.payload.quantity;
 		},
 		decrementQuantity: (state, action) => {
-			const itemExists = state.find((item) => item._id === action.payload._id);
+			const itemExists = state.find((item) => item.slug === action.payload.slug);
 			if (itemExists.quantity === 1) {
 				const index = state.findIndex(
-					(item) => item._id === action.payload._id
+					(item) => item.slug === action.payload.slug
 				);
 				// Cookies.set("cartItems", JSON.stringify(state.splice(index, 1)));
 				state.splice(index, 1);
 				console.log("Lol");
 			} else {
-				const lState = state.filter((item) => item._id !== action.payload._id);
+				const lState = state.filter((item) => item.slug !== action.payload.slug);
 				// Cookies.set(
 				// 	"cartItems",
 				// 	JSON.stringify([
@@ -59,7 +59,7 @@ const cartSlice = createSlice({
 			}
 		},
 		removeFromCart: (state, action) => {
-			const index = state.findIndex((item) => item._id === action.payload._id);
+			const index = state.findIndex((item) => item.slug === action.payload.slug);
 			state.splice(index, 1);
 		},
 		orderCompleted: () => initialState,

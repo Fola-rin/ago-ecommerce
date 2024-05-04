@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const signToken = (user) => {
 	return jwt.sign(
 		{
-			_id: user._id,
+			slug: user.slug,
 			name: user.name,
 			email: user._email,
 			isAmin: user.isAmin,

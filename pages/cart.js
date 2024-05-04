@@ -109,7 +109,7 @@ const CartItem = ({ cartData, selectedQty, setselectedQty }) => {
 					value={cartData.quantity}
 					onChange={(e) => {
 						dispatch(
-							fixedQuantity({ _id: cartData._id, quantity: +e.target.value })
+							fixedQuantity({ slug: cartData.slug, quantity: +e.target.value })
 						);
 					}}
 				>

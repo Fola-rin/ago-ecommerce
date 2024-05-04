@@ -133,7 +133,7 @@ export default function Home() {
 								design, it is suitable for outdoor exploration and taking on new
 								challenges.
 							</p>
-							<Link href="/" passHref>
+							<Link href="/watches/the-lure-of-adventure-silver-watch" passHref>
 								<a>See product</a>
 							</Link>
 						</div>

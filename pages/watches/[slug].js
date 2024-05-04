@@ -41,11 +41,11 @@ const Watch = ({ product }) => {
 	// };
 	const cartData = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
-	const cartProductInfo = cartData.find((item) => item._id === product._id);
+	const cartProductInfo = cartData.find((item) => item.slug === product.slug);
 	useEffect(() => {
 		// axios({
 		// 	method: "get",
-		// 	url: `/api/products/${product._id}`,
+		// 	url: `/api/products/${product.slug}`,
 		// })
 		// 	.then((response) => {
 		// 		console.log(response);
@@ -210,7 +210,7 @@ export const getServerSideProps = async (context) => {
 	const { params } = context;
 	const { slug } = params;
 
-	let product = null;
+	let product = {};
 	const mongoDBAvailabilty = await db.connect();
 	if (mongoDBAvailabilty) {
 		product = await Product.findOne({ slug: slug }).lean();

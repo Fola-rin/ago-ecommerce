@@ -475,7 +475,7 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 								<div className={styles.products_wrapper}>
 									{loadedProducts.map((product) => (
 										<Card
-											key={product._id}
+											key={product.slug}
 											cart={cart}
 											setCart={setCart}
 											handleCartAmount={handleCartAmount}
@@ -566,7 +566,7 @@ const Card = ({
 }) => {
 	const cartData = useSelector((state) => state.cart);
 	const dispatch = useDispatch();
-	const cartProductInfo = cartData.find((item) => item._id === cartItem._id);
+	const cartProductInfo = cartData.find((item) => item.slug === cartItem.slug);
 
 	return (
 		<div className={styles.card}>

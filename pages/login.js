@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import styles from "../styles/auth.module.scss";
 import Logo from "../public/logoMain.svg";
 import GoogleIcon from "@mui/icons-material/Google";
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import Link from "next/link";
 import { signIn, signOut, getSession, useSession } from "next-auth/react";
 import FullScreenLogoLoader from "../components/Layout/FullScreenLogoLoader";

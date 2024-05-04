@@ -6,10 +6,12 @@ import GoogleIcon from "@mui/icons-material/Google";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import FullScreenLogoLoader from "../components/Layout/FullScreenLogoLoader";
+import { useRouter } from "next/router";
 
 const SignUp = () => {
 	const [loading, setLoading] = useState(true);
 	const { data: session, status } = useSession();
+	const router = useRouter();
 
 	useEffect(() => {
 		if (status === "loading") {

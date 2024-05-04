@@ -20,7 +20,7 @@ handler.post(async (req, res) => {
 	const token = signToken(user);
 	res.send({
 		token,
-		_id: user._id,
+		slug: user.slug,
 		name: user.name,
 		email: user.email,
 		isAmin: user.isAdmin,

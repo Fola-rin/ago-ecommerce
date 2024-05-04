@@ -9,8 +9,8 @@ const UnderConstruction = () => {
 				<h1>Sorry!</h1>
 
 				<div className={styles.empty_cart}>
-					<h2 style={{ fontSize: "48px" }}>😢</h2>
-					<h3>The page you&apos;re looking for does not exist!</h3>
+					<h2 style={{ fontSize: "48px" }}>🛠️</h2>
+					<h3>This page is still under construction!</h3>
 					<p>
 						<Link href="/">
 							<a>Continue shopping</a>

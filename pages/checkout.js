@@ -137,11 +137,6 @@ const SuccessScreen = () => (
 				<Link href="/" passHref>
 					<a>Go home</a>
 				</Link>
-				<Link href="https://bit.ly/congratulations_link" passHref>
-					<a target="_blank" rel="noreferrer">
-						Win a free iphone
-					</a>
-				</Link>
 			</div>
 		</div>
 	</div>

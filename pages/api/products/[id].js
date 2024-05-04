@@ -5,7 +5,7 @@ import db from "../../../utils/db";
 const handler = nc();
 
 handler.get(async (req, res) => {
-	let product = null;
+	let product = {};
 	const mongoDBAvailabilty = await db.connect();
 	if (mongoDBAvailabilty) {
 		product = await Product.findOne(req.query.id).lean();
