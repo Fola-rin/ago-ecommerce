@@ -5,9 +5,15 @@ import db from "../../../utils/db";
 const handler = nc();
 
 handler.get(async (req, res) => {
-	await db.connect();
-	const product = await Product.findById(req.query.id);
-	await db.disconnect();
+	let product = null;
+	const mongoDBAvailabilty = await db.connect();
+	if (mongoDBAvailabilty) {
+		product = await Product.findOne(req.query.id).lean();
+		await db.disconnect();
+	}
+	else {
+		
+	}
 	res.send(product);
 });
 

@@ -20,6 +20,7 @@ import {
 	incrementQuantity,
 	decrementQuantity,
 } from "../../redux/cart.slice";
+import data from "../../utils/data";
 
 const Watch = ({ product }) => {
 	const router = useRouter();
@@ -209,12 +210,18 @@ export const getServerSideProps = async (context) => {
 	const { params } = context;
 	const { slug } = params;
 
-	await db.connect();
-	const product = await Product.findOne({ slug: slug }).lean();
-	await db.disconnect();
+	let product = null;
+	const mongoDBAvailabilty = await db.connect();
+	if (mongoDBAvailabilty) {
+		product = await Product.findOne({ slug: slug }).lean();
+		await db.disconnect();
+	}
+	else {
+		product = data.products.find((item) => item.slug === slug);
+	}
 	return {
 		props: {
-			product: db.convertDocToObj(product),
+			product: mongoDBAvailabilty ? db.convertDocToObj(product) : product,
 		},
 	};
 };
