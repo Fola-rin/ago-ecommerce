@@ -3,7 +3,6 @@
 	color: #010d19;
 	min-height: 700px;
 	padding: 120px;
-
 	.auth_wrapper {
 		// border: 1px solid #cfcfcf;
 		background-color: white;
@@ -106,6 +105,33 @@
 				svg {
 					margin-right: 10px;
 					color: #d8854c;
+				}
+			}
+		}
+	}
+}
+
+
+@media screen and (max-width:768px) {
+	.auth_container {
+		padding: 30px;
+		height: calc(100vh - 70px);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: white;
+		.auth_wrapper {
+			width: 100%;
+			box-shadow: none;
+			padding: 0;
+			.logo {
+				width: 80px;
+			}
+			.form_div {
+				form {
+					p {
+						text-align: center;
+					}
 				}
 			}
 		}
