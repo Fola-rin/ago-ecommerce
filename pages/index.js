@@ -60,7 +60,7 @@ export default function Home() {
 							</div>
 							<div className={styles.text_wrapper}>
 								<p>Watches</p>
-								<Link href="/" passHref>
+								<Link href="/watches" passHref>
 									<a>
 										<span>SHOP</span>
 										<span className={styles.card_icon}>
@@ -81,7 +81,7 @@ export default function Home() {
 							</div>
 							<div className={styles.text_wrapper}>
 								<p>SUN GLASSES</p>
-								<Link href="/" passHref>
+								<Link href="/watches" passHref>
 									<a>
 										<span>SHOP</span>
 										<span className={styles.card_icon}>
@@ -102,7 +102,7 @@ export default function Home() {
 							</div>
 							<div className={styles.text_wrapper}>
 								<p>SHOES</p>
-								<Link href="/" passHref>
+								<Link href="/watches" passHref>
 									<a>
 										<span>SHOP</span>
 										<span className={styles.card_icon}>

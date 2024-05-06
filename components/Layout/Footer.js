@@ -9,23 +9,58 @@ const Footer = () => {
 		<>
 			<div className="footer">
 				<div className="footer-wrapper">
-					<div className="info">
-						<div className="logo-wrapper">
-							<Link href="/" passHref>
-								<a>
-									<Logo />
-								</a>
-							</Link>
+					<div className="footer-top">
+						<div className="info">
+							<div className="logo-wrapper">
+								<Link href="/" passHref>
+									<a>
+										<Logo />
+									</a>
+								</Link>
+							</div>
+							<p>
+								I believe a watch can be more helpful than you think. It can lift
+								your style and probably your life to a whole new level. So if you
+								have not done it yet, WHY NOT START WEARING A WATCH TODAY?
+							</p>
 						</div>
-						<p>
-							I believe a watch can be more helpful than you think. It can lift
-							your style and probably your life to a whole new level. So if you
-							have not done it yet, WHY NOT START WEARING A WATCH TODAY?
-						</p>
+						<div className="page-links">
+							<div className="wrapper">
+								<p>
+									<b>Products</b>
+								</p>
+								<div className="links">
+									<div className="link">
+										<Link href="/watches">Watches</Link>
+									</div>
+									<div className="link">
+										<Link href="/watches">Sun Glasses</Link>
+									</div>
+									<div className="link">
+										<Link href="/watches">Shoes</Link>
+									</div>
+								</div>
+							</div>
+
+							<div className="wrapper">
+								<p>
+									<b>Contact</b>
+								</p>
+								<div className="links">
+									<div className="link">
+										<Link href="mailto:oyefola1@gmail.com" passHref>
+											<a> Get in touch</a>
+										</Link>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div className="footer-bottom">
 						<div className="socials">
 							<div className="link">
 								<Link
-									href="https://folarin.netlify.app/"
+									href="https://afolarin.com/"
 									target="_blank"
 									rel="noreferrer"
 								>
@@ -56,48 +91,6 @@ const Footer = () => {
 										<LinkedIn />
 									</a>
 								</Link>
-							</div>
-							<div className="link">
-								<Link
-									href="https://twitter.com/fola_leke"
-									target="_blank"
-									rel="noreferrer"
-								>
-									<a>
-										<Twitter />
-									</a>
-								</Link>
-							</div>
-						</div>
-					</div>
-					<div className="page-links">
-						<div className="wrapper">
-							<p>
-								<b>Products</b>
-							</p>
-							<div className="links">
-								<div className="link">
-									<Link href="/watches">Watches</Link>
-								</div>
-								<div className="link">
-									<Link href="/under-construction">Sun Glasses</Link>
-								</div>
-								<div className="link">
-									<Link href="/under-construction">Shoes</Link>
-								</div>
-							</div>
-						</div>
-
-						<div className="wrapper">
-							<p>
-								<b>Contact</b>
-							</p>
-							<div className="links">
-								<div className="link">
-									<Link href="mailto:oyefola1@gmail.com" passHref>
-										<a> Get in touch</a>
-									</Link>
-								</div>
 							</div>
 						</div>
 					</div>
