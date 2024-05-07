@@ -47,6 +47,7 @@
 				}
 			}
 		}
+
 		.sort_container {
 			padding: 20px 120px;
 			display: flex;
@@ -61,6 +62,9 @@
 			.sort_wrapper {
 				width: fit-content;
 				position: relative;
+				&:first-of-type {
+					display: none;
+				}
 				.trigger {
 					border: 1px solid #cfcfcf;
 					border-radius: 500px;
@@ -131,6 +135,9 @@
 				position: sticky;
 				top: 127px;
 				align-self: flex-start;
+				.filter_wrapper__close {
+					display: none;
+				}
 				h2 {
 					font-size: 21px;
 					margin-bottom: 20px;
@@ -393,6 +400,191 @@
 				}
 				div {
 					margin-right: 20px;
+				}
+			}
+		}
+	}
+}
+
+
+@media screen and (max-width:1100px) {
+	.watches_container {
+		.watches_wrapper {
+			.search_container {
+				padding: 0 30px;
+			}
+			.sort_container {
+				padding: 20px 30px;
+			}
+			.products_container {
+				padding: 20px 30px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width:1024px) {
+	.watches_container {
+		.watches_wrapper {
+			.products_container {
+				.products_wrapper {
+					grid-template-columns: 1fr 1fr;
+					grid-gap: 20px;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width:768px) {
+	.watches_container {
+		.watches_wrapper {
+			.search_container {
+				margin-bottom: 10px;
+				.search_wrapper {
+					width: 100%;
+					max-width: 500px;
+					input {
+						padding: 14px 50px 14px 20px;
+						max-width: 500px;
+						width: 100%;
+					}
+					div {
+						position: absolute;
+						right: 0;
+						top: 0;
+						height: 100%;
+						display: flex;
+						align-items: center;
+						padding-right: 20px;
+					}
+				}
+			}
+			h2.search_name {
+				padding: 0 30px 0;
+				width: 100%;
+				font-size: 22px;
+			}
+			h3.no_results {
+				padding: 120px 0;
+				width: 100%;
+			}
+			.sort_container {
+				padding: 10px 30px;
+				.results {
+					width: 100%;
+				}
+				.sort_wrapper {
+					&:first-of-type {
+						display: block;
+						margin-right: 10px;
+					}
+				}
+			}
+			.products_container {
+				margin-bottom: 20px;
+				.filter_wrapper_bg {
+					position: fixed;
+					display: none;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background-color: #010d19b2;
+					z-index: 9;
+					&.filter_wrapper_bg__opened {
+						display: block;
+					}
+				}
+				.filter_wrapper {
+					width: 100%;
+					bottom: -100%;
+					position: fixed;
+					top: unset;
+					left: 0;
+					z-index: 10;
+					align-self: flex-start;
+					background-color: #fff;
+					padding: 50px 30px 30px;
+					transition: 400ms ease;
+					&.filter_wrapper__opened {
+						bottom: 0;
+					}
+					.filter_wrapper__close {
+						display: block;
+						position: absolute;
+						top: 15px;
+						right: 30px;
+						height: 24px;
+					}
+				}
+				.products_wrapper {
+					width: 100%;
+					.card {
+						padding: 10px;
+						.utility_wrapper {
+							.new {
+								font-size: 14px;
+							}
+							.sale {
+								font-size: 14px;
+							}
+						}
+						.img_wrapper {
+							width: 100px;
+							height: 180px;
+							margin-bottom: 15px;
+							a {
+								transition: none;
+								&:hover {
+									transition: none;
+									transform: unset;
+								}
+							}
+						}
+						.price {
+							font-size: 14px;
+							margin-bottom: 20px;
+						}
+						.link_wrapper {
+							.add_to_cart {
+								padding: 10px;
+								transition: none;
+								&:hover {
+									transition: none;
+									transform: unset;
+								}
+							}
+							.cart_counter {
+								padding: 10px;
+								transition: none;
+							}
+						}
+					}
+				}
+			}
+			.pagination_wrapper {
+				padding: 20px 30px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width:540px) {
+	.watches_container {
+		.watches_wrapper {
+			.sort_container {
+				flex-wrap: wrap-reverse;
+        		justify-content: center;
+				margin-bottom: 0;
+				> p {
+					margin-top: 30px;
+				}
+			}
+			.products_container {
+				.products_wrapper {
+					width: 100%;
+					grid-template-columns: 1fr;
 				}
 			}
 		}

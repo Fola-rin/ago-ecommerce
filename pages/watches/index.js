@@ -1,6 +1,8 @@
-import { Search } from "@mui/icons-material";
+import { Close, FilterAlt, FilterAltOutlined, Search } from "@mui/icons-material";
 import Layout from "../../components/Layout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import CloseIcon from '@mui/icons-material/Close';
+
 
 import styles from "../../styles/watches.module.scss";
 import { useState } from "react";
@@ -60,6 +62,8 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 	const [numFilterArray, setNumFilterArray] = useState([]);
 
 	const [loading, setLoading] = useState(false);
+
+	const [openFilterMenu, setOpenFilterMenu] = useState(false);
 
 	const [cart, setCart] = useState(0);
 
@@ -310,6 +314,14 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 							<div className={styles.sort_wrapper}>
 								<div
 									className={styles.trigger}
+									onClick={() => setOpenFilterMenu(!openFilterMenu)}
+								>
+									<span>Filters</span><FilterAltOutlined />
+								</div>
+							</div>
+							<div className={styles.sort_wrapper}>
+								<div
+									className={styles.trigger}
 									onClick={() => setOpenSort(!openSort)}
 								>
 									{query.sortBy && query.sortType
@@ -387,7 +399,9 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 							""
 						)}
 						<div className={styles.products_container}>
-							<div className={styles.filter_wrapper}>
+							<div className={styles.filter_wrapper_bg + (openFilterMenu ? (' ' + styles.filter_wrapper_bg__opened) : '')} onClick={() => setOpenFilterMenu(!openFilterMenu)}></div>
+							<div className={styles.filter_wrapper + (openFilterMenu ? (' ' + styles.filter_wrapper__opened) : '')}>
+								<button onClick={() => setOpenFilterMenu(!openFilterMenu)} className={styles.filter_wrapper__close}><CloseIcon/></button>
 								<div className={styles.filter}>
 									<p className={styles.title}>Type</p>
 									<div className={styles.contents}>
