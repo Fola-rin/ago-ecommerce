@@ -42,7 +42,7 @@ const Watch = ({ product }) => {
 	const dispatch = useDispatch();
 	const cartProductInfo = cartData.find((item) => item.slug === product.slug);
 
-	const [show, setShow] = useState([true, false, false, false]);
+	const [show, setShow] = useState(0);
 
 	if (product === null) {
 		return <Error statusCode={500} title="😱 | No products found!"/>
@@ -63,34 +63,38 @@ const Watch = ({ product }) => {
 									objectFit="contain"
 									height={100}
 									width={100}
-									className={show[0] ? styles.showImg : styles.hideImg}
+									className={show === 0 ? styles.showImg : styles.hideImg}
 								/>
 								<Image
 									src={bestPlace}
 									alt=""
 									objectFit="cover"
-									className={show[1] ? styles.showImg : styles.hideImg}
+									className={show === 1 ? styles.showImg : styles.hideImg}
 								/>
 								<Image
 									src={heroProd}
 									alt=""
 									objectFit="cover"
-									className={show[2] ? styles.showImg : styles.hideImg}
+									className={show === 2 ? styles.showImg : styles.hideImg}
 								/>
 								<Image
 									src={bestPlace}
 									alt=""
 									objectFit="cover"
-									className={show[3] ? styles.showImg : styles.hideImg}
+									className={show === 3 ? styles.showImg : styles.hideImg}
 								/>
+							</div>
+							<div className={styles.img_arrows}>
+								<button onClick={() => show > 0 ? setShow(show-1): ''} disabled={show <= 0}><ChevronLeftIcon/></button>
+								<button onClick={() => show < 3 ? setShow(show+1) : ''} disabled={show >= 3}><ChevronRightIcon/></button>
 							</div>
 
 							<div className={styles.img_choices}>
 								<div
 									className={
-										styles.img_choice + (show[0] ? " " + styles.selected : "")
+										styles.img_choice + (show === 0 ? " " + styles.selected : "")
 									}
-									onClick={() => setShow([true, false, false, false])}
+									onClick={() => setShow(0)}
 								>
 									<Image
 										src={`/${product.image}/1.png`}
@@ -102,25 +106,25 @@ const Watch = ({ product }) => {
 								</div>
 								<div
 									className={
-										styles.img_choice + (show[1] ? " " + styles.selected : "")
+										styles.img_choice + (show === 1 ? " " + styles.selected : "")
 									}
-									onClick={() => setShow([false, true, false, false])}
+									onClick={() => setShow(1)}
 								>
 									<Image src={bestPlace} alt="" objectFit="cover" />
 								</div>
 								<div
 									className={
-										styles.img_choice + (show[2] ? " " + styles.selected : "")
+										styles.img_choice + (show === 2 ? " " + styles.selected : "")
 									}
-									onClick={() => setShow([false, false, true, false])}
+									onClick={() => setShow(2)}
 								>
 									<Image src={heroProd} alt="" objectFit="cover" />
 								</div>
 								<div
 									className={
-										styles.img_choice + (show[3] ? " " + styles.selected : "")
+										styles.img_choice + (show === 3 ? " " + styles.selected : "")
 									}
-									onClick={() => setShow([false, false, false, true])}
+									onClick={() => setShow(3)}
 								>
 									<Image src={bestPlace} alt="" objectFit="cover" />
 								</div>
