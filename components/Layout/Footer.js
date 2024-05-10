@@ -31,13 +31,13 @@ const Footer = () => {
 								</p>
 								<div className="links">
 									<div className="link">
-										<Link href="/watches">Watches</Link>
+										<Link href='/watches?filterCat=["Leather"]'>Leather</Link>
 									</div>
 									<div className="link">
-										<Link href="/watches">Sun Glasses</Link>
+										<Link href='/watches?filterCat=["Silver"]'>Silver</Link>
 									</div>
 									<div className="link">
-										<Link href="/watches">Shoes</Link>
+										<Link href='/watches?filterCat=["Gold"]'>Gold</Link>
 									</div>
 								</div>
 							</div>

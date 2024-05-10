@@ -53,18 +53,18 @@ const Header = () => {
 						</Link>
 					</div>
 					<div className="nav-link">
-						<Link href="/watches" className="transition">
-							Watches
+						<Link href='/watches?filterCat=["Leather"]' className="transition">
+							Leather
 						</Link>
 					</div>
 					<div className="nav-link">
-						<Link href="/watches" className="transition">
-							Sun glasses
+						<Link href='/watches?filterCat=["Silver"]' className="transition">
+							Silver
 						</Link>
 					</div>
 					<div className="nav-link">
-						<Link href="/watches" className="transition">
-							Shoes
+						<Link href='/watches?filterCat=["Gold"]' className="transition">
+							Gold
 						</Link>
 					</div>
 				</div>
@@ -173,18 +173,18 @@ const Header = () => {
 									</Link>
 								</div>
 								<div className="nav-link" onClick={toggleModalVal}>
-									<Link href="/watches" className="transition">
-										Watches
+									<Link href='/watches?filterCat=["Leather"]' className="transition">
+										Leather
 									</Link>
 								</div>
 								<div className="nav-link" onClick={toggleModalVal}>
-									<Link href="/watches" className="transition">
-										Sun glasses
+									<Link href='/watches?filterCat=["Silver"]' className="transition">
+										Silver
 									</Link>
 								</div>
 								<div className="nav-link" onClick={toggleModalVal}>
-									<Link href="/watches" className="transition">
-										Shoes
+									<Link href='/watches?filterCat=["Gold"]' className="transition">
+										Gold
 									</Link>
 								</div>
 							</div>
