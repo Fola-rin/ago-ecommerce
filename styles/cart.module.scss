@@ -49,6 +49,13 @@
 					}
 					.name {
 						width: 50%;
+						h4 {
+							width: 100%;
+						}
+						.price,
+						.total {
+							display: none;
+						}
 					}
 				}
 				div {
@@ -94,6 +101,9 @@
 				}
 				.action {
 					padding-top: 10px;
+					.qty {
+						display: none;
+					}
 				}
 			}
 		}
@@ -199,4 +209,134 @@
 			}
 		}
 	}
+}
+
+
+@media screen and (max-width:1100px) {
+	.cart_container {
+		h1 {
+			padding: 60px 30px 0;
+		}
+		.cart_wrapper {
+			padding: 0 30px 60px;
+			.cart_summary_wrapper {
+				padding-left: 30px;
+			}
+		}
+	}	
+}
+
+@media screen and (max-width:1024px) {
+	.cart_container {
+		h1 {
+			font-size: 22px;
+			margin-bottom: 20px;
+		}
+		.cart_wrapper {
+			display: block;
+			.cart_items_wrapper {
+				width: 100%;
+				margin-bottom: 60px;
+			}
+			.cart_summary_wrapper {
+				width: 100%;
+				padding: 0;
+			}
+		}
+	}	
+}
+
+@media screen and (max-width:768px) {
+	.cart_container {
+		h1 {
+		}
+		.cart_wrapper {
+			padding: 0 25px 60px;
+			.cart_items_wrapper {
+				.cart_item {
+					display: flex;
+					justify-content: space-between;
+					border: 1px solid #cfcfcf;
+					border-radius: 20px;
+					overflow: hidden;
+					padding-top: 0;
+					margin-bottom: 15px;
+					.info {
+						width: 70%;
+						display: flex;
+						justify-content: space-between;
+						.img_wrapper {
+							overflow: hidden;
+							border-radius: 5px;
+							display: flex;
+							width: 45%;
+							min-height: 130px;
+							height: unset;
+							padding: 12px;
+							background-color: #fff;
+							border-radius: 20px;
+							overflow: hidden;
+							span {
+								width: 100% !important;
+								height: 100% !important;
+								img {
+									width: 100% !important;
+									height: 100% !important;
+								}
+							}
+						}
+						.name {
+							padding: 12px 0;
+							display: flex;
+							flex-direction: column;
+							h4 {
+								flex: 1;
+							}
+							.price,
+							.total {
+								display: block;
+								width: 100%;
+								.value {
+									color: #010d19;
+									font-size: 14px;
+								}
+							}
+						}
+					}
+					.qty {
+						display: none;
+					}
+					.price,
+					.total {
+						display: none;
+					}
+					.action {
+						padding-top: 0;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						width: fit-content;
+						align-items: self-end;
+						padding: 12px;
+						button {
+							display: block;
+						}
+						.qty {
+							display: flex;
+							gap: 10px;
+							width: 100%;
+							align-items: center;
+							.title {
+								margin-bottom: 0;
+								font-weight: 400;
+								font-size: 14px;
+							}
+						}
+					}
+				}
+			}
+			.cart_summary_wrapper {
+			}
+		}
+	}	
 }

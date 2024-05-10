@@ -23,7 +23,6 @@ const cartSlice = createSlice({
 			const itemExists = state.find((item) => item.slug === action.payload.slug);
 			itemExists.quantity++;
 			const lState = state.filter((item) => item.slug !== action.payload.slug);
-			console.log("lol");
 			// Cookies.set(
 			// 	"cartItems",
 			// 	JSON.stringify([
@@ -45,7 +44,6 @@ const cartSlice = createSlice({
 				);
 				// Cookies.set("cartItems", JSON.stringify(state.splice(index, 1)));
 				state.splice(index, 1);
-				console.log("Lol");
 			} else {
 				const lState = state.filter((item) => item.slug !== action.payload.slug);
 				// Cookies.set(

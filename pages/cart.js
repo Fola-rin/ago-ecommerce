@@ -8,6 +8,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fixedQuantity, removeFromCart } from "../redux/cart.slice";
+import { Delete } from "@mui/icons-material";
 
 const Cart = () => {
 	const cartData = useSelector((state) => state.cart);
@@ -97,7 +98,12 @@ const CartItem = ({ cartData, selectedQty, setselectedQty }) => {
 						objectFit="contain"
 					/>
 				</div>
-				<h4 className={styles.name}>{cartData.name}</h4>
+				<div className={styles.name}>
+					<h4>{cartData.name}</h4>
+					<div className={styles.price}>
+						<p className={styles.value}>${cartData.price}</p>
+					</div>
+				</div>
 			</div>
 			<div className={styles.price}>
 				<p className={styles.title}>Price</p>
@@ -131,8 +137,29 @@ const CartItem = ({ cartData, selectedQty, setselectedQty }) => {
 			</div>
 			<div className={styles.action}>
 				<button onClick={() => dispatch(removeFromCart(cartData))}>
-					<CloseIcon />
+					<Delete />
 				</button>
+				<div className={styles.qty}>
+					<select
+						value={cartData.quantity}
+						onChange={(e) => {
+							dispatch(
+								fixedQuantity({ slug: cartData.slug, quantity: +e.target.value })
+							);
+						}}
+					>
+						<option value={1}>1</option>
+						<option value={2}>2</option>
+						<option value={3}>3</option>
+						<option value={4}>4</option>
+						<option value={5}>5</option>
+						<option value={6}>6</option>
+						<option value={7}>7</option>
+						<option value={8}>8</option>
+						<option value={9}>9</option>
+						<option value={10}>10</option>
+					</select>
+				</div>
 			</div>
 		</div>
 	);
