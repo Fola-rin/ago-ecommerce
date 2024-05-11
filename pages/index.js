@@ -14,10 +14,18 @@ import bestPlace from "../public/images/products/best-place.jpg";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import styles from "../styles/home.module.scss";
+import { useState } from "react";
 
-export default function Home() {
+export default function Home({text}) {
+
+	const [textstate, setText] = useState(text);
+
+	console.log(textstate);
+
+
 	return (
 		<Layout>
+			<p style={{color:"black"}}>{textstate}</p>
 			<div className={styles.home_container}>
 				<div className={styles.hero_section}>
 					<div
@@ -206,4 +214,13 @@ export default function Home() {
 			</div>
 		</Layout>
 	);
+}
+
+
+export const getServerSideProps = async (context) => {
+	return {
+		props: {
+			text: 'some text'
+		},
+	};
 }
