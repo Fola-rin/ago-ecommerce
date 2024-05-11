@@ -1,4 +1,4 @@
-import { LinkedIn, Twitter } from "@mui/icons-material";
+import LinkedIn from "@mui/icons-material/LinkedIn";
 import Link from "next/link";
 import Logo from "../../public/images/logo.svg";
 import LanguageIcon from "@mui/icons-material/Language";

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { fixedQuantity, removeFromCart } from "../redux/cart.slice";
-import { Delete } from "@mui/icons-material";
+import Delete from "@mui/icons-material/Delete";
 
 const Cart = () => {
 	const cartData = useSelector((state) => state.cart);
