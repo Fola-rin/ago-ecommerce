@@ -4,11 +4,11 @@ import styles from "../../styles/watch.module.scss";
 import heroProd from "../../public/images/products/third_showcase.jpg";
 import bestPlace from "../../public/images/products/best-place.jpg";
 
-// import AddIcon from "@mui/icons-material/Add";
-// import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 import Link from "next/link";
-// import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-// import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Layout from "../../components/Layout";
 import db from "../../utils/db";
 import Product from "../../models/Product";
@@ -84,15 +84,8 @@ const Watch = ({ product }) => {
 								/>
 							</div>
 							<div className={styles.img_arrows}>
-								<button onClick={() => show > 0 ? setShow(show-1): ''} disabled={show <= 0}>
-								{/* <ChevronLeftIcon/> */}
-								⬅️
-								</button>
-								<button onClick={() => show < 3 ? setShow(show+1) : ''} disabled={show >= 3}>
-
-								{/* <ChevronRightIcon/> */}
-								➡️
-								</button>
+								<button onClick={() => show > 0 ? setShow(show-1): ''} disabled={show <= 0}><ChevronLeftIcon/></button>
+								<button onClick={() => show < 3 ? setShow(show+1) : ''} disabled={show >= 3}><ChevronRightIcon/></button>
 							</div>
 
 							<div className={styles.img_choices}>
@@ -163,8 +156,7 @@ const Watch = ({ product }) => {
 												dispatch(decrementQuantity(product));
 											}}
 										>
-											{/* <RemoveIcon /> */}
-											🗑️
+											<RemoveIcon />
 										</button>
 										<span>
 											{cartProductInfo.quantity ? cartProductInfo.quantity : 0}
@@ -172,8 +164,7 @@ const Watch = ({ product }) => {
 										<button
 											onClick={() => dispatch(incrementQuantity(product))}
 										>
-											{/* <AddIcon /> */}
-											+
+											<AddIcon />
 										</button>
 									</div>
 								) : (
