@@ -262,7 +262,7 @@ const Watches = ({ products, totalPages, currentPage, totalCount }) => {
 			setLoading(true);
 			axios({
 				method: "get",
-				url: `${process.env.DOMAIN}/api/products/${url}`,
+				url: `/api/products/${url}`,
 			})
 				.then((response) => {
 					console.log(response);
