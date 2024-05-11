@@ -1,4 +1,5 @@
-import { Close, FilterAlt, FilterAltOutlined, Search } from "@mui/icons-material";
+import Search from "@mui/icons-material/Search";
+import FilterAltOutlined from "@mui/icons-material/FilterAltOutlined";
 import Layout from "../../components/Layout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CloseIcon from '@mui/icons-material/Close';
