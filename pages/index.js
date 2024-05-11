@@ -147,7 +147,7 @@ export default function Home() {
 							</Link>
 						</div>
 						<div className={styles.video_wrapper}>
-							<video loop autoPlay muted>
+							<video loop autoPlay muted controls={false} playsInline>
 								<source src="/video.mp4" type="video/mp4" />
 								Your browser does not support the video tag.
 							</video>
