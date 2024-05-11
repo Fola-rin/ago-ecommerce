@@ -198,14 +198,21 @@ export const getServerSideProps = async (context) => {
 	const { slug } = params;
 
 	let product = {};
+	console.log('stage 1');
 	const mongoDBAvailabilty = await db.connect();
+	console.log('stage 2');
+
 	if (mongoDBAvailabilty) {
+		console.log('stage 3.1');
 		product = await Product.findOne({ slug: slug }).lean();
 		await db.disconnect();
 	}
 	else {
+		console.log('stage 3.2');
 		product = data.products.find((item) => item.slug === slug);
 	}
+
+	console.log('stage 4');
 	return {
 		props: {
 			product: mongoDBAvailabilty ? db.convertDocToObj(product) : (product || null),
