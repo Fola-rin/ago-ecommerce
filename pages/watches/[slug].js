@@ -12,7 +12,6 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Layout from "../../components/Layout";
 import db from "../../utils/db";
 import Product from "../../models/Product";
-import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import {

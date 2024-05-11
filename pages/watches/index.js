@@ -18,8 +18,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import FullScreenLogoLoader from "../../components/Layout/FullScreenLogoLoader";
 import axios from "axios";
-import { set } from "mongoose";
-import slugify from "../../utils/slugify";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	addToCart,

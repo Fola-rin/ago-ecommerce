@@ -1,8 +1,5 @@
 import Layout from "../components/Layout";
 import styles from "../styles/cart.module.scss";
-import heroProd from "../public/images/products/third_showcase.jpg";
-import bestPlace from "../public/images/products/best-place.jpg";
-import CloseIcon from "@mui/icons-material/Close";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";

@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import styles from "../styles/checkout.module.scss";
-import heroProd from "../public/images/products/third_showcase.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { orderCompleted } from "../redux/cart.slice";
