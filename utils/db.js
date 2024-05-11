@@ -5,7 +5,7 @@ const connection = {};
 const connect = async () => {
 	let timeoutHandle;
 	try {
-		if (process.env.NODE_ENV === "development") {
+		if (process.env.ENV === "development") {
 			if (connection.isConnected === 1) {
 				console.log("connected already", connection.isConnected);
 				return true;
