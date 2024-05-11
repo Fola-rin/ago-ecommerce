@@ -647,6 +647,7 @@ export const getServerSideProps = async (context) => {
 		searchStr = "",
 	} = context.query;
 
+	console.log('stage 1');
 	// create object for price ranges
 	let numObj = { a: [0, 99], b: [100, 200], c: [201, 1000] };
 	if (numCat) {
@@ -668,10 +669,12 @@ export const getServerSideProps = async (context) => {
 	let products = null;
 	let count = null;
 
+	console.log('stage 2');
 	const mongoDBAvailabilty = await db.connect();
 
 	// use mongo db store if database exists
 	if (mongoDBAvailabilty) {
+	console.log('stage 3.1');
 		const options =
 			searchStr === ""
 				? filterCat
@@ -705,6 +708,7 @@ export const getServerSideProps = async (context) => {
 		count = countProducts.length;
 		await db.disconnect();
 	} else {
+		console.log('stage 3.2');
 		const totalProductsWithoutDb = data.products;
 
 		// apply filters to the local data array
@@ -750,6 +754,7 @@ export const getServerSideProps = async (context) => {
 		}
 		products = finalProducts;
 	}
+	console.log('stage 4');
 	
 	return {
 		props: {
