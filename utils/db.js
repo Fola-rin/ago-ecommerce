@@ -17,6 +17,7 @@ const connect = async () => {
 			}
 			await disconnect();
 		}
+		mongoose.set("strictQuery", false);
 		const dbPromise = mongoose.connect(process.env.MONGODB_URI);
 
 		// to handle cases where mongo db takes to long to respond, most likely due to errors
@@ -24,7 +25,7 @@ const connect = async () => {
 			timeoutHandle = setTimeout(
 				() => {
 					resolve(null);
-				}, 3000);
+				}, 1000);
 		});
 
 		return Promise.race([dbPromise, timeoutPromise]).then((db) => {
