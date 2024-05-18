@@ -185,7 +185,7 @@ export default function Home() {
 								task. The right place to purchase a watch can make all the
 								difference in the quality of the product you receive and the
 								overall shopping experience. One of the best places to shop for
-								a watch is <b>e-choke</b>.
+								a watch is <b>àgò</b>.
 							</p>
 							<Link href="/watches" passHref>
 								<a>Shop Now</a>

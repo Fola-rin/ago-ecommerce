@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../public/logoMain.svg";
+import Logo from "../../public/images/logo.svg";
 
 const FullScreenLogoLoader = () => {
 	return (
@@ -8,7 +8,6 @@ const FullScreenLogoLoader = () => {
 				<div className="img">
 					<Logo />
 				</div>
-				<p>Please wait...</p>
 			</div>
 		</div>
 	);

@@ -32,7 +32,7 @@ const SignUp = () => {
 					</div>
 					<div className={styles.title}>
 						<h1>Welcome!</h1>
-						<p>Create your e-choke account</p>
+						<p>Create your àgò account</p>
 					</div>
 					<div className={styles.form_div}>
 						<form>

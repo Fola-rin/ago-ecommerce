@@ -33,7 +33,7 @@ const LoginPage = () => {
 					</div>
 					<div className={styles.title}>
 						<h1>Welcome!</h1>
-						<p>Log in to your e-choke account</p>
+						<p>Log in to your àgò account</p>
 					</div>
 					<div className={styles.form_div}>
 						<form>

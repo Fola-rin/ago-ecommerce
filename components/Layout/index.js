@@ -7,10 +7,10 @@ const Layout = ({ children }) => {
 	return (
 		<>
 			<Head>
-				<title>e-choke</title>
+				<title>àgò - E-commerce watch store</title>
 				<meta
 					name="description"
-					content="An ecommerce web app created by Oyeleke Afolarin"
+					content="A full stack ecommerce watch store. Created by Afolarin Oyeleke"
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
